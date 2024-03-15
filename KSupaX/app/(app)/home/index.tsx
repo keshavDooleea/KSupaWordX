@@ -1,18 +1,15 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { Session } from "@supabase/supabase-js";
-import { supabase } from "../../utils/supabase/client";
+import { supabase } from "../../../utils/supabase/client";
+import { useAuth } from "../../../hooks/useAuth";
 
-interface IHomeProps {
-  session: Session;
-}
-
-export default function Home({ session }: IHomeProps) {
+export default function Home() {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [website, setWebsite] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const { session } = useAuth();
 
   useEffect(() => {
     if (session) getProfile();

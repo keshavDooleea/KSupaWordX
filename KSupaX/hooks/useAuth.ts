@@ -1,6 +1,7 @@
 import { supabase } from "../utils/supabase/client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useAlert } from "./useAlert";
+import { AuthContext } from "../providers/AuthProvider";
 
 interface IUseAuth {
   email: string;
@@ -9,21 +10,22 @@ interface IUseAuth {
 
 export const useAuth = () => {
   const { showError } = useAlert();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const authContext = useContext(AuthContext);
 
   async function signInWithEmail({ email, password }: IUseAuth) {
-    setLoading(true);
+    setIsLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
 
     if (error) showError(error.message);
-    setLoading(false);
+    setIsLoading(false);
   }
 
   async function signUpWithEmail({ email, password }: IUseAuth) {
-    setLoading(true);
+    setIsLoading(true);
     const {
       data: { session },
       error,
@@ -34,12 +36,18 @@ export const useAuth = () => {
 
     if (error) showError(error.message);
     if (!session) showError("Please check your inbox for email verification!");
-    setLoading(false);
+    setIsLoading(false);
+  }
+
+  async function signOut() {
+    await supabase.auth.signOut();
   }
 
   return {
-    loading,
+    isLoading,
     signInWithEmail,
     signUpWithEmail,
+    signOut,
+    ...authContext,
   };
 };

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, View, AppState } from "react-native";
 import { Button, Input } from "react-native-elements";
-import { supabase } from "../../utils/supabase/client";
-import { globalStyles } from "../../utils/styles/global";
 import { Text } from "react-native";
-import { colors } from "../../utils/styles/colors";
+import { supabase } from "../../utils/supabase/client";
 import { useAuth } from "../../hooks/useAuth";
+import { globalStyles } from "../../utils/styles/global";
+import { colors } from "../../utils/styles/colors";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -22,7 +22,7 @@ AppState.addEventListener("change", (state) => {
 export default function Auth() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { signInWithEmail, signUpWithEmail, loading } = useAuth();
+  const { signInWithEmail, signUpWithEmail, isLoading } = useAuth();
 
   async function logIn() {
     await signInWithEmail({ email, password });
@@ -43,7 +43,7 @@ export default function Auth() {
         </View>
 
         <View style={[authStyles.verticallySpaced, globalStyles.mt20]}>
-          <Button buttonStyle={globalStyles.button} title="Log In" disabled={loading} onPress={logIn} />
+          <Button buttonStyle={globalStyles.button} title="Log In" disabled={isLoading} onPress={logIn} />
         </View>
 
         <View style={authStyles.signUpView}>
