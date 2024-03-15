@@ -1,11 +1,13 @@
 import { Stack } from "expo-router";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../hooks/useAuth";
+import { useImagePicker } from "../../hooks/useImagePicker";
 
-const StackLayout = () => {
+export default function StackLayout() {
   const { signOut } = useAuth();
+  const { uploadSnapshot } = useImagePicker();
 
   return (
     <Stack>
@@ -13,15 +15,25 @@ const StackLayout = () => {
         name="home/index"
         options={{
           headerTitle: "My Snapshots",
-          headerRight: () => (
+          headerTitleAlign: "center",
+          headerLeft: () => (
             <TouchableOpacity onPress={signOut}>
-              <Ionicons name="log-out-outline" size={30} />
+              <Ionicons name="log-out-outline" size={30} style={styles.logOutButton} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={uploadSnapshot}>
+              <Ionicons name="image-outline" size={30} />
             </TouchableOpacity>
           ),
         }}
       ></Stack.Screen>
     </Stack>
   );
-};
+}
 
-export default StackLayout;
+const styles = StyleSheet.create({
+  logOutButton: {
+    transform: [{ scaleX: -1 }],
+  },
+});
