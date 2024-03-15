@@ -1,6 +1,6 @@
 import { Session, User } from "@supabase/supabase-js";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
-import { supabase } from "../utils/supabase/client";
+import { supabase } from "../utils";
 
 interface IAuthContext {
   user: User | null | undefined;

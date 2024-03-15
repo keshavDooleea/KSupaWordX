@@ -1,8 +1,7 @@
 import { Slot, useSegments } from "expo-router";
-import { useAuth } from "../hooks/useAuth";
-import { AuthProvider } from "../providers/AuthProvider";
+import { useAuth, useRouter } from "../hooks";
+import { AuthProvider } from "../providers";
 import { useEffect } from "react";
-import { useRouter } from "../hooks/useRouter";
 
 const InitialLayout = () => {
   const { session, isInitialized } = useAuth();

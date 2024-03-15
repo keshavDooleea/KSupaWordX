@@ -2,8 +2,7 @@ import { Stack } from "expo-router";
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../../hooks/useAuth";
-import { useImagePicker } from "../../hooks/useImagePicker";
+import { useAuth, useImagePicker } from "../../hooks";
 
 export default function StackLayout() {
   const { signOut } = useAuth();

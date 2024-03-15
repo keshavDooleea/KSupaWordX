@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { View } from "react-native";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks";
 
 export default function Home() {
   const { session } = useAuth();

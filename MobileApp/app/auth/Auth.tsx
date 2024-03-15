@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { StyleSheet, View, AppState } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { Text } from "react-native";
-import { supabase } from "../../utils/supabase/client";
-import { useAuth } from "../../hooks/useAuth";
-import { globalStyles } from "../../utils/styles/global";
-import { colors } from "../../utils/styles/colors";
+import { supabase, globalStyles, colors } from "../../utils";
+import { useAuth } from "../../hooks";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive

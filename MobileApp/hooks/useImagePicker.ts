@@ -1,10 +1,8 @@
 import { MediaTypeOptions, launchImageLibraryAsync } from "expo-image-picker";
 import { useState } from "react";
 import { useAlert } from "./useAlert";
-import { supabase } from "../utils/supabase/client";
+import { supabase, CONSTANTS, ENV } from "../utils";
 import { useAuth } from "./useAuth";
-import { CONSTANTS } from "../utils/constants";
-import { ENV } from "../utils/env";
 
 export const useImagePicker = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
