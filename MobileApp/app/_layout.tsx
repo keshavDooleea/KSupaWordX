@@ -1,7 +1,8 @@
 import { Slot, useSegments } from "expo-router";
 import { useAuth, useRouter } from "../hooks";
-import { AuthProvider } from "../providers";
+import { AuthProvider, BottomSheetProvider } from "../providers";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const InitialLayout = () => {
   const { session, isInitialized } = useAuth();
@@ -26,7 +27,11 @@ const InitialLayout = () => {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <InitialLayout />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetProvider>
+          <InitialLayout />
+        </BottomSheetProvider>
+      </GestureHandlerRootView>
     </AuthProvider>
   );
 }

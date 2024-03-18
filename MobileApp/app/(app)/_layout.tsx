@@ -2,18 +2,20 @@ import { Stack } from "expo-router";
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth, useImagePicker } from "../../hooks";
+import { useAuth, useBottomSheet } from "../../hooks";
+import { CONSTANTS } from "../../utils";
 
 export default function StackLayout() {
   const { signOut } = useAuth();
-  const { uploadSnapshot } = useImagePicker();
+  const { openCreateBS } = useBottomSheet();
+  // const { uploadSnapshot } = useImagePicker();
 
   return (
     <Stack>
       <Stack.Screen
         name="home/index"
         options={{
-          headerTitle: "My Snapshots",
+          headerTitle: CONSTANTS.appName,
           headerTitleAlign: "center",
           headerLeft: () => (
             <TouchableOpacity onPress={signOut}>
@@ -21,8 +23,8 @@ export default function StackLayout() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={uploadSnapshot}>
-              <Ionicons name="image-outline" size={30} />
+            <TouchableOpacity onPress={openCreateBS}>
+              <Ionicons name="add-outline" size={30} />
             </TouchableOpacity>
           ),
         }}
