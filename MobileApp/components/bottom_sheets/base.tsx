@@ -7,9 +7,10 @@ import { CONSTANTS } from "../../utils";
 
 interface ICreateBottomSheet extends PropsWithChildren {
   shouldOpen: boolean;
+  canClose?: boolean;
 }
 
-const BaseBottomSheet = ({ shouldOpen, children }: ICreateBottomSheet) => {
+const BaseBottomSheet = ({ shouldOpen, canClose = true, children }: ICreateBottomSheet) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const { closeAllBS } = useBottomSheet();
 
@@ -17,10 +18,10 @@ const BaseBottomSheet = ({ shouldOpen, children }: ICreateBottomSheet) => {
     if (index === -1) closeAllBS();
   }, []);
 
-  const renderBackdrop = useCallback((props: BottomSheetDefaultBackdropProps) => <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />, []);
+  const renderBackdrop = useCallback((props: BottomSheetDefaultBackdropProps) => <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} pressBehavior={canClose ? "close" : "none"} />, []);
 
   return (
-    <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enableDynamicSizing={true} enablePanDownToClose={true} backdropComponent={renderBackdrop}>
+    <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enableDynamicSizing={true} enablePanDownToClose={canClose} backdropComponent={renderBackdrop}>
       <BottomSheetScrollView>
         <View style={styles.contentContainer}>{children}</View>
       </BottomSheetScrollView>

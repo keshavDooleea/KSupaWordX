@@ -3,6 +3,9 @@ import { colors } from "./colors";
 import { CONSTANTS } from "../constants";
 
 export const globalStyles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
   title: {
     fontWeight: "bold",
     fontSize: 30,
@@ -11,7 +14,7 @@ export const globalStyles = StyleSheet.create({
     marginTop: 10,
   },
   mt20: {
-    marginTop: CONSTANTS.styles.marginL,
+    marginTop: CONSTANTS.styles.margin.l,
   },
   border: {
     borderWidth: 3,

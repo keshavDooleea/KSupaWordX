@@ -3,6 +3,7 @@ import { useAuth, useRouter } from "../hooks";
 import { AuthProvider, BottomSheetProvider } from "../providers";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { globalStyles } from "../utils";
 
 const InitialLayout = () => {
   const { session, isInitialized } = useAuth();
@@ -27,7 +28,7 @@ const InitialLayout = () => {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={globalStyles.flex}>
         <BottomSheetProvider>
           <InitialLayout />
         </BottomSheetProvider>
