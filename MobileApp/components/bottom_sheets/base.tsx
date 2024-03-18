@@ -1,38 +1,38 @@
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef } from "react";
-import { StyleSheet } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { PropsWithChildren, useCallback, useRef } from "react";
+import { StyleSheet, View } from "react-native";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "../../hooks";
+import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
+import { CONSTANTS } from "../../utils";
 
 interface ICreateBottomSheet extends PropsWithChildren {
   shouldOpen: boolean;
-  snapPoints: string[];
 }
 
-const BaseBottomSheet = ({ shouldOpen, snapPoints, children }: ICreateBottomSheet) => {
+const BaseBottomSheet = ({ shouldOpen, children }: ICreateBottomSheet) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPointsMemoized = useMemo(() => snapPoints, []);
   const { closeAllBS } = useBottomSheet();
 
   const handleSheetChanges = useCallback((index: number) => {
     if (index === -1) closeAllBS();
   }, []);
 
-  useEffect(() => {
-    if (!bottomSheetRef.current) return;
-    shouldOpen ? bottomSheetRef.current.expand() : bottomSheetRef.current.close();
-  }, [shouldOpen]);
+  const renderBackdrop = useCallback((props: BottomSheetDefaultBackdropProps) => <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />, []);
 
   return (
-    <BottomSheet ref={bottomSheetRef} onChange={handleSheetChanges} snapPoints={snapPointsMemoized} enablePanDownToClose={true}>
-      <BottomSheetView style={styles.contentContainer}>{children}</BottomSheetView>
+    <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enableDynamicSizing={true} enablePanDownToClose={true} backdropComponent={renderBackdrop}>
+      <BottomSheetScrollView>
+        <View style={styles.contentContainer}>{children}</View>
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 };
 
 const styles = StyleSheet.create({
   contentContainer: {
-    flex: 1,
     alignItems: "center",
+    paddingTop: CONSTANTS.styles.margin.l,
+    paddingBottom: CONSTANTS.styles.margin.l,
   },
 });
 

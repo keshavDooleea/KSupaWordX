@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "./colors";
+import { CONSTANTS } from "../constants";
 
 export const globalStyles = StyleSheet.create({
   title: {
@@ -10,7 +11,7 @@ export const globalStyles = StyleSheet.create({
     marginTop: 10,
   },
   mt20: {
-    marginTop: 20,
+    marginTop: CONSTANTS.styles.marginL,
   },
   border: {
     borderWidth: 3,

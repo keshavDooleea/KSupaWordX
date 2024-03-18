@@ -5,4 +5,10 @@ export const CONSTANTS = {
     defaultFileExtension: "jpeg",
     defaultFileMimeType: "image/jpeg",
   },
+  styles: {
+    margin: {
+      m: 10,
+      l: 20,
+    },
+  },
 };
