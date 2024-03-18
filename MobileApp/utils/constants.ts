@@ -1,7 +1,7 @@
 export const CONSTANTS = {
   appName: "KSupaX",
   storage: {
-    bucketName: "screenshots",
+    bucketName: "snapshots",
     defaultFileExtension: "jpeg",
     defaultFileMimeType: "image/jpeg",
   },
