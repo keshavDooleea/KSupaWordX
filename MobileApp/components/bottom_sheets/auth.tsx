@@ -1,9 +1,10 @@
-import { Button, Input, Text } from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import BaseBottomSheet from "./base";
 import { useState } from "react";
 import { useAuth } from "../../hooks";
 import { CONSTANTS, colors, globalStyles } from "../../utils";
 import { StyleSheet, View } from "react-native";
+import { MyText } from "../MyText";
 
 export const AuthBottomSheet = () => {
   const [email, setEmail] = useState<string>("");
@@ -33,10 +34,8 @@ export const AuthBottomSheet = () => {
         </View>
 
         <View style={authStyles.signUpView}>
-          <Text>Don't have an account? </Text>
-          <Text onPress={signUp} style={authStyles.signUpText}>
-            Sign Up
-          </Text>
+          <MyText text="Don't have an account?" />
+          <MyText onPress={signUp} style={authStyles.signUpText} text="Sign Up" />
         </View>
       </View>
     </BaseBottomSheet>
@@ -59,7 +58,7 @@ const authStyles = StyleSheet.create({
     marginTop: CONSTANTS.styles.margin.m,
   },
   signUpText: {
-    color: colors.main,
+    color: colors.background.accentPrimary,
     fontWeight: "bold",
   },
 });

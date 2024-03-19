@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useCallback, useRef } from "react";
+import React, { PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useBottomSheet } from "../../hooks";
@@ -19,6 +19,10 @@ const BaseBottomSheet = ({ shouldOpen, canClose = true, children }: ICreateBotto
   }, []);
 
   const renderBackdrop = useCallback((props: BottomSheetDefaultBackdropProps) => <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} pressBehavior={canClose ? "close" : "none"} />, []);
+
+  useEffect(() => {
+    shouldOpen ? bottomSheetRef.current?.expand() : bottomSheetRef.current?.close();
+  }, [shouldOpen]);
 
   return (
     <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enableDynamicSizing={true} enablePanDownToClose={canClose} backdropComponent={renderBackdrop}>

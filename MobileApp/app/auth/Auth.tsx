@@ -2,7 +2,7 @@ import React from "react";
 import { AppState, StyleSheet, View } from "react-native";
 import { CONSTANTS, globalStyles, supabase } from "../../utils";
 import { AuthBottomSheet } from "../../components/bottom_sheets";
-import { Text } from "react-native-elements";
+import { MyText } from "../../components";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -19,7 +19,7 @@ AppState.addEventListener("change", (state) => {
 export default function Auth() {
   return (
     <View style={[globalStyles.flex, styles.container]}>
-      <Text>{CONSTANTS.appName}</Text>
+      <MyText text={CONSTANTS.appName} />
       <AuthBottomSheet />
     </View>
   );

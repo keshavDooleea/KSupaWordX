@@ -4,6 +4,7 @@
 
 - https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native
 - https://github.com/saimon24/react-native-resumable-upload-supabase/tree/main
+- https://youtube.com/shorts/mbdHzyRs9bo?si=UNp2TUy-OfNXF1Gg
 
 ### Supabase Queries
 

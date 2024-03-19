@@ -17,10 +17,21 @@ export const globalStyles = StyleSheet.create({
     marginTop: CONSTANTS.styles.margin.l,
   },
   border: {
-    borderWidth: 3,
+    borderWidth: 1,
     borderColor: colors.border,
+    borderRadius: CONSTANTS.styles.radius,
   },
   button: {
-    backgroundColor: colors.main,
+    backgroundColor: colors.background.accentPrimary,
+  },
+  shadow: {
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  text: {
+    fontFamily: "IBM",
   },
 });

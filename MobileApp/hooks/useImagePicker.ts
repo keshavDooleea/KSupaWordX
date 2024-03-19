@@ -9,7 +9,7 @@ export const useImagePicker = () => {
   const { showError } = useAlert();
   const { user } = useAuth();
 
-  const uploadSnapshot = async () => {
+  const uploadSnapshot = async (): Promise<boolean | void> => {
     try {
       if (!user || !user.id) {
         return showError("No user!");
@@ -26,7 +26,7 @@ export const useImagePicker = () => {
       });
 
       if (result.canceled || !result.assets || result.assets.length === 0) {
-        return;
+        return false;
       }
 
       const image = result.assets[0];
@@ -51,6 +51,8 @@ export const useImagePicker = () => {
       if (uploadError) {
         return showError(uploadError.message);
       }
+
+      return true;
     } catch (error) {
       if (error instanceof Error) {
         showError(error.message);

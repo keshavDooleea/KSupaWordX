@@ -10,5 +10,10 @@ export const CONSTANTS = {
       m: 10,
       l: 20,
     },
+    radius: 5,
+    opacity: {
+      low: 0.6,
+      high: 1,
+    },
   },
 };

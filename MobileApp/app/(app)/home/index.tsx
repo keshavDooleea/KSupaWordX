@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useAuth } from "../../../hooks";
 import { CreateBottomSheet } from "../../../components/bottom_sheets";
-import { Text } from "react-native-elements";
+import { colors } from "../../../utils";
 
 export default function Home() {
   const { session } = useAuth();
@@ -15,7 +15,6 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <Text>afef</Text>
       <CreateBottomSheet />
     </View>
   );
@@ -26,6 +25,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexGrow: 1,
     flexDirection: "column",
-    backgroundColor: "red",
+    backgroundColor: colors.background.secondary,
   },
 });
