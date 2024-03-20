@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import { ELanguageType, EVocabType } from "../../../../../interfaces";
 import { OptionUrlWordBody } from "./UrlWordBody";
-import { LanguageCheckbox } from "../../../../Checkboxes/LanguageCheckbox";
 import { useCallback, useState } from "react";
 import { LANGUAGES } from "../../../../../utils";
 import { OptionImageBody } from "./ImageBody";
+import { LanguageSegmentedControl } from "../../../../SegmentedControl/LanguageSegmentedControl";
 
 interface IOptionBodyProp {
   selectedType: EVocabType;
@@ -27,7 +27,7 @@ export const OptionBody = ({ selectedType }: IOptionBodyProp) => {
 
   return (
     <View>
-      <LanguageCheckbox onPressed={onLanguagePressed} selectedLanguageType={selectedLanguageType} />
+      <LanguageSegmentedControl onPressed={onLanguagePressed} selectedLanguageType={selectedLanguageType} />
       <Body />
     </View>
   );

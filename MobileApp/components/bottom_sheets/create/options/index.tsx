@@ -3,8 +3,8 @@ import { VOCAB_TYPES } from "../../../../utils";
 import { EVocabType, IVocab } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { MyText } from "../../../MyText";
-import { MyCheckbox } from "../../../Checkboxes/MyCheckbox";
 import { OptionBody } from "./body";
+import { SegmentedControl } from "../../../SegmentedControl";
 
 const types = VOCAB_TYPES;
 
@@ -18,7 +18,7 @@ export const CreateOptions = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
-        <MyCheckbox types={types} onPressed={onVocabTypePressed} selectedType={selectedType} />
+        <SegmentedControl types={types} onPressed={onVocabTypePressed} selectedType={selectedType} />
         <MyText style={styles.descriptionText} text={vocab?.description} />
         <OptionBody selectedType={selectedType} />
       </View>
