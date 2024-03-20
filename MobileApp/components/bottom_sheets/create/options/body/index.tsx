@@ -1,33 +1,41 @@
-import { View } from "react-native";
-import { ELanguageType, EVocabType } from "../../../../../interfaces";
+import { View, useWindowDimensions } from "react-native";
+import { EVocabType } from "../../../../../interfaces";
 import { OptionUrlWordBody } from "./UrlWordBody";
-import { useCallback, useState } from "react";
-import { LANGUAGES } from "../../../../../utils";
+import { memo, useCallback } from "react";
 import { OptionImageBody } from "./ImageBody";
-import { LanguageSegmentedControl } from "../../../../SegmentedControl/LanguageSegmentedControl";
+import { CONSTANTS } from "../../../../../utils";
 
 interface IOptionBodyProp {
   selectedType: EVocabType;
 }
 
 export const OptionBody = ({ selectedType }: IOptionBodyProp) => {
-  const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(LANGUAGES[0].type);
+  const { width: windowWidth } = useWindowDimensions();
+  const segmentedControlWidth = windowWidth - CONSTANTS.styles.margin.m * 2;
 
-  const onLanguagePressed = useCallback((type: ELanguageType) => setSelectedLanguageType(type), []);
+  const onTextChanged = useCallback(
+    (text: string, type: EVocabType) => {
+      console.log({ text, type });
+    },
+    [selectedType]
+  );
 
-  const Body = () => {
+  const Body = memo(() => {
     switch (selectedType) {
       case EVocabType.url:
       case EVocabType.word:
-        return <OptionUrlWordBody selectedType={selectedType} />;
+        return <OptionUrlWordBody selectedType={selectedType} onTextChanged={onTextChanged} />;
       case EVocabType.image:
         return <OptionImageBody />;
     }
-  };
+  });
 
   return (
-    <View>
-      <LanguageSegmentedControl onPressed={onLanguagePressed} selectedLanguageType={selectedLanguageType} />
+    <View
+      style={{
+        width: segmentedControlWidth,
+      }}
+    >
       <Body />
     </View>
   );

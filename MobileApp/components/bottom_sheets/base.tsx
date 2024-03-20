@@ -25,7 +25,7 @@ const BaseBottomSheet = ({ shouldOpen, canClose = true, children }: ICreateBotto
   }, [shouldOpen]);
 
   return (
-    <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enableDynamicSizing={true} enablePanDownToClose={canClose} backdropComponent={renderBackdrop}>
+    <BottomSheet ref={bottomSheetRef} index={shouldOpen ? 0 : -1} onChange={handleSheetChanges} enablePanDownToClose={canClose} enableDynamicSizing={true} backdropComponent={renderBackdrop} keyboardBlurBehavior="restore">
       <BottomSheetScrollView>
         <View style={styles.contentContainer}>{children}</View>
       </BottomSheetScrollView>
@@ -35,6 +35,7 @@ const BaseBottomSheet = ({ shouldOpen, canClose = true, children }: ICreateBotto
 
 const styles = StyleSheet.create({
   contentContainer: {
+    flex: 1,
     alignItems: "center",
     paddingTop: CONSTANTS.styles.margin.l,
     paddingBottom: CONSTANTS.styles.margin.l,

@@ -7,7 +7,7 @@ export const colors = {
     accentPrimary: "#6881db",
   },
   text: {
-    title: "rgba(0, 0, 0, 0.85)",
+    title: "#8ea0bd",
     subtitle: "rgba(0, 0, 0, 0.7)",
   },
 };

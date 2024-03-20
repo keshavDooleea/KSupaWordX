@@ -10,6 +10,12 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
   },
+  font: {
+    fontFamily: "IBM",
+  },
+  fullWidth: {
+    width: "100%",
+  },
   mt10: {
     marginTop: 10,
   },
