@@ -1,20 +1,23 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { CONSTANTS, colors, globalStyles } from "../../../../utils";
-import { EVocabType, IVocab } from "../../../../interfaces";
-import { MyText } from "../../../MyText";
+import { MyText } from "../MyText";
+import { CONSTANTS, globalStyles, colors } from "../../utils";
+import { Key } from "react";
 
-interface ICreateOptionProp {
-  types: IVocab[];
-  onPressed: (type: EVocabType) => void;
-  selectedType: EVocabType;
+interface IMyCheckboxProps<T, G> {
+  types: {
+    name: string;
+    type: G;
+  }[];
+  onPressed: (type: G) => void;
+  selectedType: G;
 }
 
-export const OptionTypes = ({ types, onPressed, selectedType }: ICreateOptionProp) => {
+export const MyCheckbox = <T, G>({ types, onPressed, selectedType }: IMyCheckboxProps<T, G>) => {
   return (
     <View style={styles.typesContainer}>
       {types.map(({ type, name }, index) => (
         <Pressable
-          key={type}
+          key={type as Key}
           onPress={() => onPressed(type)}
           style={({ pressed }) => [
             {

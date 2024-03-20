@@ -8,7 +8,6 @@ export const CreateBottomSheet = () => {
   return (
     <BaseBottomSheet shouldOpen={shouldOpenCreateBS}>
       <CreateOptions />
-      {/* <BottomSheetTextInput placeholder="Enter a word or a URL" autoFocus={true} /> */}
     </BaseBottomSheet>
   );
 };

@@ -1,37 +1,26 @@
 import { StyleSheet, View } from "react-native";
 import { VOCAB_TYPES } from "../../../../utils";
-import { useBottomSheet, useImagePicker } from "../../../../hooks";
-import { OptionTypes } from "./types";
 import { EVocabType, IVocab } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { MyText } from "../../../MyText";
+import { MyCheckbox } from "../../../Checkboxes/MyCheckbox";
+import { OptionBody } from "./body";
 
 const types = VOCAB_TYPES;
 
 export const CreateOptions = () => {
-  const { uploadSnapshot } = useImagePicker();
-  const { closeAllBS } = useBottomSheet();
-  const [selectedType, setSelectedType] = useState<EVocabType>(types[0].type);
   const [vocab, setVocab] = useState<IVocab>();
+  const [selectedType, setSelectedType] = useState<EVocabType>(types[0].type);
 
-  const onPressed = useCallback((type: EVocabType) => {
-    setSelectedType(type);
-  }, []);
-
-  useEffect(() => {
-    setVocab(types.find((t) => t.type === selectedType));
-  }, [selectedType]);
-
-  const onImagePressed = async () => {
-    const isSuccess = await uploadSnapshot();
-    if (isSuccess) closeAllBS();
-  };
+  const onVocabTypePressed = useCallback((type: EVocabType) => setSelectedType(type), []);
+  useEffect(() => setVocab(types.find((t) => t.type === selectedType)), [selectedType]);
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.container}>
-        <OptionTypes types={types} onPressed={onPressed} selectedType={selectedType} />
+        <MyCheckbox types={types} onPressed={onVocabTypePressed} selectedType={selectedType} />
         <MyText style={styles.descriptionText} text={vocab?.description} />
+        <OptionBody selectedType={selectedType} />
       </View>
     </View>
   );
