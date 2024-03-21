@@ -37,8 +37,8 @@ export const useImagePicker = () => {
 
       const arraybuffer = await fetch(image.uri).then((res) => res.arrayBuffer());
 
-      if (arraybuffer.byteLength >= ENV.supabase.maxSize) {
-        return showError(`File must not exceed ${ENV.supabase.maxSize / 1000} KB`);
+      if (arraybuffer.byteLength >= ENV.supabase.maxStorageSize) {
+        return showError(`File must not exceed ${ENV.supabase.maxStorageSize / 1000} KB`);
       }
 
       const fileExt = image.uri?.split(".").pop()?.toLowerCase() ?? CONSTANTS.storage.defaultFileExtension;

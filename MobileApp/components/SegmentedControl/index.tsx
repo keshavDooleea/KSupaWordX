@@ -1,8 +1,9 @@
-import { StyleSheet, TouchableOpacity, View, useWindowDimensions } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MyText } from "../MyText";
 import { CONSTANTS, globalStyles, colors } from "../../utils";
 import { Key } from "react";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
+import { useDimensions } from "../../hooks";
 
 interface SegmentedControl<T, G> {
   types: {
@@ -14,10 +15,9 @@ interface SegmentedControl<T, G> {
 }
 
 export const SegmentedControl = <T, G>({ types, onPressed, selectedType }: SegmentedControl<T, G>) => {
-  const { width: windowWidth } = useWindowDimensions();
+  const { segmentedControlWidth } = useDimensions();
 
   const internalPadding = CONSTANTS.styles.margin.m;
-  const segmentedControlWidth = windowWidth - CONSTANTS.styles.margin.m * 2;
   const itemWidth = (segmentedControlWidth - internalPadding) / types.length;
 
   const rStyle = useAnimatedStyle(() => {

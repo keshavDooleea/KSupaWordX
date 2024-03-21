@@ -1,23 +1,33 @@
 import { StyleSheet, View } from "react-native";
-import { LANGUAGES, VOCAB_TYPES } from "../../../../utils";
+import { LANGUAGES, VOCAB_TYPES, globalStyles } from "../../../../utils";
 import { ELanguageType, EVocabType, IVocab } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { OptionBody } from "./body";
 import { SegmentedControl } from "../../../SegmentedControl";
 import { Title } from "../../../Title";
 import { LanguageSegmentedControl } from "../../../SegmentedControl/LanguageSegmentedControl";
+import { Button } from "react-native-elements";
+import { useDimensions } from "../../../../hooks";
 
 const types = VOCAB_TYPES;
 
 export const CreateOptions = () => {
+  const { segmentedControlWidth } = useDimensions();
+
   const [vocab, setVocab] = useState<IVocab>();
   const [selectedType, setSelectedType] = useState<EVocabType>(types[0].type);
-  const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(LANGUAGES[0].type);
-
   const onVocabTypePressed = useCallback((type: EVocabType) => setSelectedType(type), []);
   useEffect(() => setVocab(types.find((t) => t.type === selectedType)), [selectedType]);
 
+  const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(LANGUAGES[0].type);
   const onLanguagePressed = useCallback((type: ELanguageType) => setSelectedLanguageType(type), []);
+
+  const [wordText, setWordText] = useState<string>("");
+  const onTextChanged = useCallback((text: string) => setWordText(text), []);
+
+  const onConfirmClicked = () => {
+    console.log({ selectedType, selectedLanguageType, wordText });
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -34,8 +44,10 @@ export const CreateOptions = () => {
 
         <View>
           <Title text={vocab?.description} />
-          <OptionBody selectedType={selectedType} />
+          <OptionBody selectedType={selectedType} onTextChanged={onTextChanged} text={wordText} />
         </View>
+
+        <Button buttonStyle={[globalStyles.button, { width: segmentedControlWidth }]} title="Confirm" disabled={false} onPress={onConfirmClicked} />
       </View>
     </View>
   );
