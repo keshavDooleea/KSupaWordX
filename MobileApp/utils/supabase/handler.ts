@@ -1,10 +1,11 @@
-import { useAlert } from "../../hooks";
+import { useAlert } from "../../hooks/useAlert";
 import { IWords } from "../../interfaces";
 import { supabase } from "./client";
 import { SupabaseTypes } from "./types";
 
 export class SupabaseDB {
   private static showError = useAlert().showError;
+  private static showSuccess = useAlert().showSuccess;
 
   static async createWord(newWord: IWords, urls: string[]): Promise<boolean> {
     const { word } = newWord;
@@ -34,7 +35,7 @@ export class SupabaseDB {
       }
 
       await supabase.from(SupabaseTypes.WORDS).update({ is_processing: false }).eq("id", wordId);
-
+      this.showSuccess(`Word saved successfully`);
       return true;
     } catch (err) {
       SupabaseDB.showError(`"An error occurred while saving the word: ${word}`);

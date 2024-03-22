@@ -9,5 +9,6 @@ export const colors = {
   text: {
     title: "#8ea0bd",
     subtitle: "rgba(0, 0, 0, 0.7)",
+    buttonColor: "#fff",
   },
 };

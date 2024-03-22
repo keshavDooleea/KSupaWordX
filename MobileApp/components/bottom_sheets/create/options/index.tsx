@@ -1,19 +1,19 @@
 import { StyleSheet, View } from "react-native";
-import { LANGUAGES, CATEGORY_TYPES, globalStyles, wordManager } from "../../../../utils";
+import { LANGUAGES, CATEGORY_TYPES, wordManager } from "../../../../utils";
 import { ELanguageType, ECategoryType, ICategory } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { OptionBody } from "./body";
 import { SegmentedControl } from "../../../SegmentedControl";
 import { Title } from "../../../Title";
 import { LanguageSegmentedControl } from "../../../SegmentedControl/LanguageSegmentedControl";
-import { Button } from "react-native-elements";
-import { useDimensions } from "../../../../hooks";
+import { MyButton } from "../../../MyButton";
+import { useBottomSheet } from "../../../../hooks";
 
 const types = CATEGORY_TYPES;
 
 export const CreateOptions = () => {
-  const { segmentedControlWidth } = useDimensions();
   const [isCreating, setIsCreating] = useState<boolean>(false);
+  const { closeAllBS } = useBottomSheet();
 
   const [category, setCategory] = useState<ICategory>();
   const [selectedCategoryType, setSelectedCategoryType] = useState<ECategoryType>(types[0].type);
@@ -28,8 +28,12 @@ export const CreateOptions = () => {
 
   const onConfirmClicked = async () => {
     setIsCreating(true);
-    await wordManager.createWord(selectedCategoryType, selectedLanguageType, wordText);
+    const isSuccess = await wordManager.createWord(selectedCategoryType, selectedLanguageType, wordText);
     setIsCreating(false);
+
+    if (isSuccess) {
+      closeAllBS();
+    }
   };
 
   return (
@@ -50,7 +54,7 @@ export const CreateOptions = () => {
           <OptionBody selectedCategoryType={selectedCategoryType} onTextChanged={onTextChanged} text={wordText} />
         </View>
 
-        <Button buttonStyle={[globalStyles.button, { width: segmentedControlWidth }]} title="Confirm" disabled={isCreating} onPress={onConfirmClicked} />
+        <MyButton useSegmentedWidth={true} titleNormal="Confirm" titleLoading="Creating..." onPressed={onConfirmClicked} isLoading={isCreating} />
       </View>
     </View>
   );
