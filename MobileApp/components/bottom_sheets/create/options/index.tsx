@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { LANGUAGES, VOCAB_TYPES, globalStyles } from "../../../../utils";
+import { LANGUAGES, VOCAB_TYPES, globalStyles, wordManager } from "../../../../utils";
 import { ELanguageType, EVocabType, IVocab } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { OptionBody } from "./body";
@@ -13,6 +13,7 @@ const types = VOCAB_TYPES;
 
 export const CreateOptions = () => {
   const { segmentedControlWidth } = useDimensions();
+  const [isCreating, setIsCreating] = useState<boolean>(false);
 
   const [vocab, setVocab] = useState<IVocab>();
   const [selectedType, setSelectedType] = useState<EVocabType>(types[0].type);
@@ -25,8 +26,10 @@ export const CreateOptions = () => {
   const [wordText, setWordText] = useState<string>("");
   const onTextChanged = useCallback((text: string) => setWordText(text), []);
 
-  const onConfirmClicked = () => {
-    console.log({ selectedType, selectedLanguageType, wordText });
+  const onConfirmClicked = async () => {
+    setIsCreating(true);
+    await wordManager.createWord(selectedType, selectedLanguageType, wordText);
+    setIsCreating(false);
   };
 
   return (
@@ -47,7 +50,7 @@ export const CreateOptions = () => {
           <OptionBody selectedType={selectedType} onTextChanged={onTextChanged} text={wordText} />
         </View>
 
-        <Button buttonStyle={[globalStyles.button, { width: segmentedControlWidth }]} title="Confirm" disabled={false} onPress={onConfirmClicked} />
+        <Button buttonStyle={[globalStyles.button, { width: segmentedControlWidth }]} title="Confirm" disabled={isCreating} onPress={onConfirmClicked} />
       </View>
     </View>
   );

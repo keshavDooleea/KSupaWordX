@@ -1,6 +1,6 @@
 import { Keyboard, KeyboardAvoidingView, KeyboardTypeOptions, Platform, SafeAreaView, StyleSheet, TextInput } from "react-native";
 import { CONSTANTS, colors, globalStyles } from "../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IMyInputProp {
   placeholder: string;
@@ -12,10 +12,18 @@ interface IMyInputProp {
 export const MyInput = ({ placeholder, type, onChange, text }: IMyInputProp) => {
   const [currentValue, setCurrentValue] = useState<string>(text);
 
+  const onChangeText = (t: string): void => setCurrentValue(t);
+  const onEndEditing = () => onChange(currentValue);
+
+  useEffect(() => {
+    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", onEndEditing);
+    return () => keyboardDidHideListener.remove();
+  }, [currentValue]);
+
   return (
     <SafeAreaView>
-      <KeyboardAvoidingView enabled={true} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <TextInput onChangeText={(v) => setCurrentValue(v)} onEndEditing={() => onChange(currentValue)} value={currentValue} keyboardType={type} onSubmitEditing={Keyboard.dismiss} style={styles.input} placeholder={placeholder} />
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <TextInput onChangeText={onChangeText} onEndEditing={onEndEditing} value={currentValue} keyboardType={type} onSubmitEditing={Keyboard.dismiss} style={styles.input} placeholder={placeholder} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
