@@ -1,17 +1,17 @@
 import { useMemo } from "react";
-import { EVocabType } from "../../../../../interfaces";
+import { ECategoryType } from "../../../../../interfaces";
 import { MyInput } from "../../../../MyInput";
 import { KeyboardTypeOptions } from "react-native";
 
 interface IOptionUrlWordBodyProp {
-  selectedType: EVocabType;
+  selectedCategoryType: ECategoryType;
   text: string;
   onTextChanged: (text: string) => void;
 }
 
-export const OptionUrlWordBody = ({ selectedType, onTextChanged, text }: IOptionUrlWordBodyProp) => {
-  const type = useMemo((): KeyboardTypeOptions => (selectedType === EVocabType.url ? "url" : "default"), [selectedType]);
-  const placeholder = useMemo((): string => (selectedType === EVocabType.url ? "Enter a URL" : "Enter a Word"), [selectedType]);
+export const OptionUrlWordBody = ({ selectedCategoryType, onTextChanged, text }: IOptionUrlWordBodyProp) => {
+  const type = useMemo((): KeyboardTypeOptions => (selectedCategoryType === ECategoryType.url ? "url" : "default"), [selectedCategoryType]);
+  const placeholder = useMemo((): string => (selectedCategoryType === ECategoryType.url ? "Enter a URL" : "Enter a Word"), [selectedCategoryType]);
 
   return <MyInput onChange={onTextChanged} type={type} placeholder={placeholder} text={text} />;
 };

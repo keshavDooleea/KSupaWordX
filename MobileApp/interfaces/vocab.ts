@@ -1,11 +1,11 @@
-export enum EVocabType {
+export enum ECategoryType {
   url,
   word,
   image,
 }
 
-export interface IVocab {
-  type: EVocabType;
+export interface ICategory {
+  type: ECategoryType;
   name: string;
   description: string;
 }

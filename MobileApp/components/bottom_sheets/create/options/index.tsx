@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import { LANGUAGES, VOCAB_TYPES, globalStyles, wordManager } from "../../../../utils";
-import { ELanguageType, EVocabType, IVocab } from "../../../../interfaces";
+import { LANGUAGES, CATEGORY_TYPES, globalStyles, wordManager } from "../../../../utils";
+import { ELanguageType, ECategoryType, ICategory } from "../../../../interfaces";
 import { useCallback, useEffect, useState } from "react";
 import { OptionBody } from "./body";
 import { SegmentedControl } from "../../../SegmentedControl";
@@ -9,16 +9,16 @@ import { LanguageSegmentedControl } from "../../../SegmentedControl/LanguageSegm
 import { Button } from "react-native-elements";
 import { useDimensions } from "../../../../hooks";
 
-const types = VOCAB_TYPES;
+const types = CATEGORY_TYPES;
 
 export const CreateOptions = () => {
   const { segmentedControlWidth } = useDimensions();
   const [isCreating, setIsCreating] = useState<boolean>(false);
 
-  const [vocab, setVocab] = useState<IVocab>();
-  const [selectedType, setSelectedType] = useState<EVocabType>(types[0].type);
-  const onVocabTypePressed = useCallback((type: EVocabType) => setSelectedType(type), []);
-  useEffect(() => setVocab(types.find((t) => t.type === selectedType)), [selectedType]);
+  const [category, setCategory] = useState<ICategory>();
+  const [selectedCategoryType, setSelectedCategoryType] = useState<ECategoryType>(types[0].type);
+  const onVocabTypePressed = useCallback((type: ECategoryType) => setSelectedCategoryType(type), []);
+  useEffect(() => setCategory(types.find((t) => t.type === selectedCategoryType)), [selectedCategoryType]);
 
   const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(LANGUAGES[0].type);
   const onLanguagePressed = useCallback((type: ELanguageType) => setSelectedLanguageType(type), []);
@@ -28,7 +28,7 @@ export const CreateOptions = () => {
 
   const onConfirmClicked = async () => {
     setIsCreating(true);
-    await wordManager.createWord(selectedType, selectedLanguageType, wordText);
+    await wordManager.createWord(selectedCategoryType, selectedLanguageType, wordText);
     setIsCreating(false);
   };
 
@@ -37,7 +37,7 @@ export const CreateOptions = () => {
       <View style={styles.container}>
         <View>
           <Title text="Select a vocab type" />
-          <SegmentedControl types={types} onPressed={onVocabTypePressed} selectedType={selectedType} />
+          <SegmentedControl types={types} onPressed={onVocabTypePressed} selectedCategoryType={selectedCategoryType} />
         </View>
 
         <View>
@@ -46,8 +46,8 @@ export const CreateOptions = () => {
         </View>
 
         <View>
-          <Title text={vocab?.description} />
-          <OptionBody selectedType={selectedType} onTextChanged={onTextChanged} text={wordText} />
+          <Title text={category?.description} />
+          <OptionBody selectedCategoryType={selectedCategoryType} onTextChanged={onTextChanged} text={wordText} />
         </View>
 
         <Button buttonStyle={[globalStyles.button, { width: segmentedControlWidth }]} title="Confirm" disabled={isCreating} onPress={onConfirmClicked} />

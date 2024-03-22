@@ -1,25 +1,25 @@
 import { View } from "react-native";
-import { EVocabType } from "../../../../../interfaces";
+import { ECategoryType } from "../../../../../interfaces";
 import { OptionUrlWordBody } from "./UrlWordBody";
 import { memo } from "react";
 import { OptionImageBody } from "./ImageBody";
 import { useDimensions } from "../../../../../hooks";
 
 interface IOptionBodyProp {
-  selectedType: EVocabType;
+  selectedCategoryType: ECategoryType;
   text: string;
   onTextChanged: (text: string) => void;
 }
 
-export const OptionBody = ({ selectedType, onTextChanged, text }: IOptionBodyProp) => {
+export const OptionBody = ({ selectedCategoryType, onTextChanged, text }: IOptionBodyProp) => {
   const { segmentedControlWidth } = useDimensions();
 
   const Body = memo(() => {
-    switch (selectedType) {
-      case EVocabType.url:
-      case EVocabType.word:
-        return <OptionUrlWordBody selectedType={selectedType} onTextChanged={onTextChanged} text={text} />;
-      case EVocabType.image:
+    switch (selectedCategoryType) {
+      case ECategoryType.url:
+      case ECategoryType.word:
+        return <OptionUrlWordBody selectedCategoryType={selectedCategoryType} onTextChanged={onTextChanged} text={text} />;
+      case ECategoryType.image:
         return <OptionImageBody />;
     }
   });

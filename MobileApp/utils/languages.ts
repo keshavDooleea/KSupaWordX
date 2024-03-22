@@ -1,4 +1,4 @@
-import { ELanguageType, EVocabType, ILanguage } from "../interfaces";
+import { ELanguageType, ECategoryType, ILanguage } from "../interfaces";
 
 export const LANGUAGES: ILanguage[] = [
   {

@@ -6,6 +6,6 @@ import { globalStyles } from "./styles/global";
 import { supabase } from "./supabase/client";
 import { SupabaseTypes } from "./supabase/types";
 import { wordManager } from "./supabase/manager";
-import { VOCAB_TYPES } from "./vocab";
+import { CATEGORY_TYPES } from "./vocab";
 
-export { CONSTANTS, wordManager, ENV, colors, globalStyles, supabase, VOCAB_TYPES, LANGUAGES, SupabaseTypes };
+export { CONSTANTS, wordManager, ENV, colors, globalStyles, supabase, CATEGORY_TYPES, LANGUAGES, SupabaseTypes };

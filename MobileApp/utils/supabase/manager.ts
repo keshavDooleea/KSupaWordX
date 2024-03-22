@@ -1,8 +1,8 @@
-import { ELanguageType, EVocabType, IWords } from "../../interfaces";
+import { ELanguageType, ECategoryType, IWords } from "../../interfaces";
 import { SupabaseDB } from "./handler";
 
 class WordManager {
-  async createWord(categoryType: EVocabType, languageType: ELanguageType, text: string) {
+  async createWord(categoryType: ECategoryType, languageType: ELanguageType, text: string) {
     const newWord: IWords = {
       category_type: categoryType,
       language_type: languageType,
@@ -10,15 +10,15 @@ class WordManager {
     };
 
     switch (categoryType) {
-      case EVocabType.word: {
+      case ECategoryType.word: {
         await SupabaseDB.createWord(newWord, ["AAAA", "BBBB", "c"]);
         break;
       }
-      case EVocabType.url: {
+      case ECategoryType.url: {
         await SupabaseDB.createWord(newWord, ["url"]);
         break;
       }
-      case EVocabType.image: {
+      case ECategoryType.image: {
         // this.createWordUrl.create();
         break;
       }

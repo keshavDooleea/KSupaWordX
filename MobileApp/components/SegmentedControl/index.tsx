@@ -11,21 +11,21 @@ interface SegmentedControl<T, G> {
     type: G;
   }[];
   onPressed: (type: G) => void;
-  selectedType: G;
+  selectedCategoryType: G;
 }
 
-export const SegmentedControl = <T, G>({ types, onPressed, selectedType }: SegmentedControl<T, G>) => {
+export const SegmentedControl = <T, G>({ types, onPressed, selectedCategoryType }: SegmentedControl<T, G>) => {
   const { segmentedControlWidth } = useDimensions();
 
   const internalPadding = CONSTANTS.styles.margin.m;
   const itemWidth = (segmentedControlWidth - internalPadding) / types.length;
 
   const rStyle = useAnimatedStyle(() => {
-    const index = types.findIndex((type) => type.type === selectedType);
+    const index = types.findIndex((type) => type.type === selectedCategoryType);
     return {
       left: withTiming(itemWidth * index + internalPadding / 2),
     };
-  }, [selectedType, types, itemWidth]);
+  }, [selectedCategoryType, types, itemWidth]);
 
   return (
     <View

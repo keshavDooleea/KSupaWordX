@@ -8,5 +8,5 @@ interface ILanguageCheckboxProps {
 }
 
 export const LanguageSegmentedControl = ({ onPressed, selectedLanguageType }: ILanguageCheckboxProps) => {
-  return <SegmentedControl types={LANGUAGES} onPressed={onPressed} selectedType={selectedLanguageType} />;
+  return <SegmentedControl types={LANGUAGES} onPressed={onPressed} selectedCategoryType={selectedLanguageType} />;
 };
