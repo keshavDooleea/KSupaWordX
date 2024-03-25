@@ -1,6 +1,6 @@
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { SupabaseDB } from "../utils";
-import { IDictUrlWebView, IDictUrl, ILanguage } from "../interfaces";
+import { IDictUrl, ILanguage } from "../interfaces";
 
 interface ISupabaseContext {
   isDbDataReady: boolean;
