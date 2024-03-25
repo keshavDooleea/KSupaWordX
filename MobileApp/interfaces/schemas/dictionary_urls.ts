@@ -6,3 +6,9 @@ export interface IDictUrl {
   dict_url: string;
   lang: ELanguageType;
 }
+
+export interface IDictUrlWebView {
+  type: string; // url
+  name: string;
+  lang: ELanguageType;
+}

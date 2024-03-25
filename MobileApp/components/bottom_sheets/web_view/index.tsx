@@ -1,13 +1,10 @@
 import BaseBottomSheet from "../base";
 import { useBottomSheet } from "../../../hooks";
-import { MyText } from "../../MyText";
+import { ActivityIndicator } from "react-native";
+import { WebViewBody } from "./WebViewBody";
 
 export const WebViewBottomSheet = () => {
   const { webViewWord } = useBottomSheet();
 
-  return (
-    <BaseBottomSheet shouldOpen={!!webViewWord}>
-      <MyText text={webViewWord?.word.word} />
-    </BaseBottomSheet>
-  );
+  return <BaseBottomSheet shouldOpen={!!webViewWord}>{webViewWord ? <WebViewBody userWord={webViewWord} /> : <ActivityIndicator />}</BaseBottomSheet>;
 };

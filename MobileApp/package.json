@@ -28,7 +28,8 @@
     "react-native-url-polyfill": "^2.0.0",
     "expo-font": "~11.10.3",
     "@shopify/flash-list": "1.6.3",
-    "expo-dev-client": "~3.3.11"
+    "expo-dev-client": "~3.3.11",
+    "react-native-webview": "13.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
