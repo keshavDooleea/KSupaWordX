@@ -12,7 +12,7 @@ interface IWebViewBodyProps {
 
 export const WebViewBody = ({ userWord }: IWebViewBodyProps) => {
   const { webViewHeight, segmentedControlWidth } = useDimensions();
-  const { dictionaryTypes } = useWebViewUrls(userWord);
+  const dictionaryTypes = useWebViewUrls(userWord);
 
   const [selectedDictionary, setSelectedDictionary] = useState<string>(dictionaryTypes[0].type);
   const onDictionaryUrlPressed = (type: string) => setSelectedDictionary(type);

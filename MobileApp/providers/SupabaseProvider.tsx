@@ -5,7 +5,6 @@ import { IDictUrlWebView, IDictUrl, ILanguage } from "../interfaces";
 interface ISupabaseContext {
   isDbDataReady: boolean;
   dictionaryUrls: IDictUrl[];
-  dictionaryUrlsForWebView: IDictUrlWebView[];
   languages: ILanguage[];
 }
 
@@ -14,14 +13,12 @@ export const SupabaseContext = createContext<ISupabaseContext>({} as ISupabaseCo
 export const SupabaseProvider = ({ children }: PropsWithChildren) => {
   const [isDbDataReady, setIsDbDataReady] = useState<boolean>(false);
   const [dictionaryUrls, setDictionaryUrls] = useState<IDictUrl[]>([]);
-  const [dictionaryUrlsForWebView, setDictionaryUrlsForWebView] = useState<IDictUrlWebView[]>([]);
   const [languages, setLanguages] = useState<ILanguage[]>([]);
 
   const getDictionaryUrls = async () => {
     const urls = await SupabaseDB.getDictionaryUrls();
     setDictionaryUrls([...urls]);
     setLanguages([...SupabaseDB.getLanguages(urls)]);
-    setDictionaryUrlsForWebView(urls.map((url) => ({ type: url.dict_url, name: url.dict_name, lang: url.lang })));
   };
 
   useEffect(() => {
@@ -41,7 +38,6 @@ export const SupabaseProvider = ({ children }: PropsWithChildren) => {
         isDbDataReady,
         languages,
         dictionaryUrls,
-        dictionaryUrlsForWebView,
       }}
     >
       {children}

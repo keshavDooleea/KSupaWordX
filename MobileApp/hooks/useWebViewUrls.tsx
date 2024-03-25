@@ -1,9 +1,11 @@
-import { IUserWord } from "../interfaces";
+import { IDictUrlWebView, IUserWord } from "../interfaces";
 import { useSupabase } from "./useSupabase";
 
-export const useWebViewUrls = (userWord: IUserWord) => {
-  const { dictionaryUrlsForWebView } = useSupabase();
-  const dictionaryTypes = dictionaryUrlsForWebView.filter((url) => url.lang === userWord.word.lang);
+export const useWebViewUrls = (userWord: IUserWord): IDictUrlWebView[] => {
+  const { dictionaryUrls } = useSupabase();
+  if (!dictionaryUrls) return [];
+
+  const dictionaryTypes: IDictUrlWebView[] = dictionaryUrls.map((url) => ({ type: url.dict_url, name: url.dict_name, lang: url.lang })).filter((url) => url.lang === userWord.word.lang);
 
   if (userWord.custom_word_url) {
     dictionaryTypes.push({
@@ -13,5 +15,5 @@ export const useWebViewUrls = (userWord: IUserWord) => {
     });
   }
 
-  return { dictionaryTypes };
+  return dictionaryTypes;
 };
