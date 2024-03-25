@@ -1,32 +1,13 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { ELanguageType, IUserWord } from "../../../../interfaces";
-import { useEffect, useState } from "react";
-import { CONSTANTS, SupabaseDB, colors } from "../../../../utils";
-import { useAuth, useDimensions } from "../../../../hooks";
+import { CONSTANTS, colors } from "../../../../utils";
+import { useDimensions, useWords } from "../../../../hooks";
 import { MyText } from "../../../../components";
 import { WordItem } from "./WordItem";
 
-interface IWordsListProps {
-  selectedLanguage: ELanguageType;
-}
-
-export const WordsList = ({ selectedLanguage }: IWordsListProps) => {
-  const { user } = useAuth();
+export const WordsList = () => {
   const { height } = useDimensions();
-  const [userWords, setUserWords] = useState<IUserWord[]>([]);
-  const [isFetchingWords, setIsFetchingWords] = useState<boolean>(true);
-
-  const getWords = async () => {
-    setIsFetchingWords(true);
-    const words = await SupabaseDB.getUserWords(user?.id, selectedLanguage);
-    setUserWords(words ?? []);
-    setIsFetchingWords(false);
-  };
-
-  useEffect(() => {
-    if (selectedLanguage) getWords();
-  }, [selectedLanguage]);
+  const { fetchWords, isFetchingWords, userWords } = useWords();
 
   if (isFetchingWords) {
     return (
@@ -41,7 +22,7 @@ export const WordsList = ({ selectedLanguage }: IWordsListProps) => {
       <FlashList
         data={userWords}
         refreshing={isFetchingWords}
-        onRefresh={getWords}
+        onRefresh={fetchWords}
         ListEmptyComponent={
           <View style={[{ height: height - 90 }, styles.spinnerContainer]}>
             <MyText text="No words saved yet.." />

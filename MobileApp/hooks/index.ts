@@ -7,5 +7,6 @@ import { useImagePicker } from "./useImagePicker";
 import { useRouter } from "./useRouter";
 import { useSupabase } from "./useSupabase";
 import { useWebViewUrls } from "./useWebViewUrls";
+import { useWords } from "./useWords";
 
-export { useAlert, useAuth, useRouter, useImagePicker, useBottomSheet, useFont, useDimensions, useWebViewUrls, useSupabase };
+export { useAlert, useWords, useAuth, useRouter, useImagePicker, useBottomSheet, useFont, useDimensions, useWebViewUrls, useSupabase };

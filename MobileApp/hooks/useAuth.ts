@@ -1,7 +1,7 @@
 import { supabase } from "../utils";
 import { useContext, useState } from "react";
 import { useAlert } from "./useAlert";
-import { AuthContext } from "../providers";
+import { AuthContext } from "../providers/AuthProvider";
 
 interface IUseAuth {
   email: string;

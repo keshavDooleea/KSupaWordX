@@ -1,6 +1,6 @@
 import { Slot, useSegments } from "expo-router";
 import { useAuth, useRouter, useSupabase } from "../hooks";
-import { AuthProvider, BottomSheetProvider, SupabaseProvider } from "../providers";
+import { AuthProvider, BottomSheetProvider, SupabaseProvider, WordsProvider } from "../providers";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { globalStyles } from "../utils";
@@ -30,11 +30,13 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <SupabaseProvider>
-        <GestureHandlerRootView style={globalStyles.flex}>
-          <BottomSheetProvider>
-            <InitialLayout />
-          </BottomSheetProvider>
-        </GestureHandlerRootView>
+        <WordsProvider>
+          <GestureHandlerRootView style={globalStyles.flex}>
+            <BottomSheetProvider>
+              <InitialLayout />
+            </BottomSheetProvider>
+          </GestureHandlerRootView>
+        </WordsProvider>
       </SupabaseProvider>
     </AuthProvider>
   );
