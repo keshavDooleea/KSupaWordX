@@ -6,5 +6,6 @@ import { globalStyles } from "./styles/global";
 import { SupabaseTypes } from "./supabase/types";
 import { supabase } from "./supabase/client";
 import { SupabaseDB, SupabaseClientDB } from "./supabase/handler";
+import { DateUtil } from "./date";
 
-export { CONSTANTS, ENV, colors, globalStyles, Language, SupabaseTypes, supabase, SupabaseDB, SupabaseClientDB };
+export { CONSTANTS, ENV, colors, globalStyles, DateUtil, Language, SupabaseTypes, supabase, SupabaseDB, SupabaseClientDB };

@@ -19,13 +19,14 @@ CREATE TABLE user_word_urls (
     word_id uuid not null references words on delete cascade,
     user_id uuid not null references profiles on delete cascade,
     custom_word_url VARCHAR(255),
+    created_at timestamp with time zone default now(),
     primary key (word_id, user_id)
 );
 
 CREATE TABLE dict_urls (
     id uuid not null primary key default uuid_generate_v4(),
     dict_name VARCHAR(50) unique not null,
-    dict_url VARCHAR(255) unique not null,
+    dict_url text unique not null,
     lang language not null
 );
 
@@ -34,7 +35,7 @@ CREATE TABLE dict_urls (
 alter table words
   enable row level security;
 
-alter table user_word_url
+alter table user_word_urls
   enable row level security;
 
 alter table dict_urls
@@ -55,7 +56,7 @@ create policy "Users can insert words."
     with check (true); 
 
 create policy "Users can perform all actions on their own word URLS." 
-    on user_word_url
+    on user_word_urls
     for all 
     to authenticated
     using (auth.uid() = user_id) 

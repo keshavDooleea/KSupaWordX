@@ -1,10 +1,11 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { ELanguageType, IUserWord } from "../../../../interfaces";
 import { useEffect, useState } from "react";
-import { SupabaseDB, colors } from "../../../../utils";
+import { CONSTANTS, SupabaseDB, colors } from "../../../../utils";
 import { useAuth, useDimensions } from "../../../../hooks";
 import { MyText } from "../../../../components";
+import { WordItem } from "./WordItem";
 
 interface IWordsListProps {
   selectedLanguage: ELanguageType;
@@ -36,7 +37,7 @@ export const WordsList = ({ selectedLanguage }: IWordsListProps) => {
   }
 
   return (
-    <View>
+    <View style={styles.flashContainer}>
       <FlashList
         data={userWords}
         refreshing={isFetchingWords}
@@ -46,7 +47,7 @@ export const WordsList = ({ selectedLanguage }: IWordsListProps) => {
             <MyText text="No words saved yet.." />
           </View>
         }
-        renderItem={({ item }) => <Text>{item.word.word}</Text>}
+        renderItem={({ item }) => <WordItem word={item} />}
         estimatedItemSize={200}
       />
     </View>
@@ -54,6 +55,10 @@ export const WordsList = ({ selectedLanguage }: IWordsListProps) => {
 };
 
 const styles = StyleSheet.create({
+  flashContainer: {
+    flex: 1,
+    marginTop: CONSTANTS.styles.margin.m,
+  },
   spinnerContainer: {
     flex: 1,
     alignItems: "center",
