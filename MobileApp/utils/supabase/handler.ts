@@ -1,11 +1,31 @@
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useAlert } from "../../hooks/useAlert";
-import { IWords } from "../../interfaces";
-import { supabase } from "./client";
+import { ELanguageType, IDictUrls, ILanguage, IWords } from "../../interfaces";
 import { SupabaseTypes } from "./types";
+import { supabase } from "./client";
+import { Language } from "../languages";
+
+export type SupabaseClientDB = SupabaseClient<any, "public", any>;
 
 export class SupabaseDB {
   private static showError = useAlert().showError;
   private static showSuccess = useAlert().showSuccess;
+
+  static getLanguages(dictionaryUrls: IDictUrls[] | null): ILanguage[] {
+    if (!dictionaryUrls) return [];
+
+    const languages = new Map<ELanguageType, ILanguage>();
+    dictionaryUrls.forEach((url) => {
+      languages.set(url.lang, { type: url.lang, name: Language.getName(url.lang) });
+    });
+
+    return Array.from(languages.values());
+  }
+
+  static async getDictionaryUrls(): Promise<IDictUrls[]> {
+    const { data, error } = await supabase.from(SupabaseTypes.DICT_URLS).select().returns<IDictUrls[]>();
+    return error ? [] : data;
+  }
 
   static async createWord(newWord: IWords, urls: string[]): Promise<boolean> {
     const { word } = newWord;
@@ -21,7 +41,7 @@ export class SupabaseDB {
 
       const { id: wordId } = wordData[0];
 
-      const { error: urlError } = await supabase.from(SupabaseTypes.URLS).insert(
+      const { error: urlError } = await supabase.from(SupabaseTypes.WORDS).insert(
         urls.map((url) => ({
           word_id: wordId,
           url,

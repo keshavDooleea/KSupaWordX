@@ -1,6 +1,6 @@
-import { ECategoryType, ICategory } from "./vocab";
 import { DispatchState } from "./dispatchState";
-import { ELanguageType, ILanguage } from "./language";
+import { ELanguageType, ILanguage, ELanguageName } from "./language";
+import { IDictUrls } from "./dictionary_urls";
 import { IWords } from "./schemas/word";
 
-export { ECategoryType, ICategory, DispatchState, ELanguageType, ILanguage, IWords };
+export { DispatchState, ELanguageType, IWords, IDictUrls, ILanguage, ELanguageName };

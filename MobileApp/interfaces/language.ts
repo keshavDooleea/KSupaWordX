@@ -1,6 +1,11 @@
+export enum ELanguageName {
+  en = "English",
+  fr = "French",
+}
+
 export enum ELanguageType {
-  en,
-  fr,
+  en = "en",
+  fr = "fr",
 }
 
 export interface ILanguage {

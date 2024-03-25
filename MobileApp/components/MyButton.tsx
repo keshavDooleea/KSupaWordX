@@ -9,10 +9,11 @@ interface IMyButtonProps {
   titleLoading: string;
   onPressed: () => void;
   isLoading?: boolean;
+  isDisabled?: boolean;
   useSegmentedWidth?: boolean;
 }
 
-export const MyButton = ({ useSegmentedWidth = false, isLoading = false, onPressed, titleNormal, titleLoading }: IMyButtonProps) => {
+export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisabled = false, onPressed, titleNormal, titleLoading }: IMyButtonProps) => {
   const styles: StyleProp<ViewStyle> = [globalStyles.button];
   const { buttonColor, title, subtitle } = colors.text;
 
@@ -32,5 +33,5 @@ export const MyButton = ({ useSegmentedWidth = false, isLoading = false, onPress
     );
   };
 
-  return <Button buttonStyle={styles} title={<Title />} disabled={isLoading} onPress={onPressed} />;
+  return <Button buttonStyle={styles} title={<Title />} disabled={isLoading || isDisabled} onPress={onPressed} />;
 };

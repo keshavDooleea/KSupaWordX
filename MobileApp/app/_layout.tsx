@@ -1,17 +1,18 @@
 import { Slot, useSegments } from "expo-router";
-import { useAuth, useRouter } from "../hooks";
-import { AuthProvider, BottomSheetProvider } from "../providers";
+import { useAuth, useRouter, useSupabase } from "../hooks";
+import { AuthProvider, BottomSheetProvider, SupabaseProvider } from "../providers";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { globalStyles } from "../utils";
 
 const InitialLayout = () => {
   const { session, isInitialized } = useAuth();
+  const { isDbDataReady } = useSupabase();
   const router = useRouter();
   const segments = useSegments();
 
   useEffect(() => {
-    if (!isInitialized) return;
+    if (!isInitialized || !isDbDataReady) return;
 
     const isAppGroup = segments[0] === "(app)";
 
@@ -20,7 +21,7 @@ const InitialLayout = () => {
     } else if (!session) {
       router.goToAuthPage();
     }
-  }, [session, isInitialized]);
+  }, [session, isInitialized, isDbDataReady]);
 
   return <Slot />;
 };
@@ -28,11 +29,13 @@ const InitialLayout = () => {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <GestureHandlerRootView style={globalStyles.flex}>
-        <BottomSheetProvider>
-          <InitialLayout />
-        </BottomSheetProvider>
-      </GestureHandlerRootView>
+      <SupabaseProvider>
+        <GestureHandlerRootView style={globalStyles.flex}>
+          <BottomSheetProvider>
+            <InitialLayout />
+          </BottomSheetProvider>
+        </GestureHandlerRootView>
+      </SupabaseProvider>
     </AuthProvider>
   );
 }

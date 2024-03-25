@@ -6,5 +6,7 @@ import IconButton from "./buttons/icon/IconButton";
 import { Title } from "./Title";
 import { MyInput } from "./MyInput";
 import { MyButton } from "./MyButton";
+import { BulletList } from "./BulletList";
+import { SegmentedControlWidth } from "./SegmentedControl/SegmentedControlWidth";
 
-export { MyButton, MyInput, IconButton, SplashScreen, MyText, SegmentedControl, LanguageSegmentedControl, Title };
+export { MyButton, MyInput, BulletList, IconButton, SplashScreen, MyText, SegmentedControl, SegmentedControlWidth, LanguageSegmentedControl, Title };

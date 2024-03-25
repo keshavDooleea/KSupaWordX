@@ -1,0 +1,84 @@
+import { StyleSheet, View } from "react-native";
+import { ELanguageType } from "../../../interfaces";
+import { useCallback, useState } from "react";
+import { Title } from "../../Title";
+import { LanguageSegmentedControl } from "../../SegmentedControl/LanguageSegmentedControl";
+import { MyButton } from "../../MyButton";
+import { useBottomSheet, useSupabase } from "../../../hooks";
+import { BulletList } from "../../BulletList";
+import { Language } from "../../../utils";
+import { SegmentedControlWidth } from "../../SegmentedControl/SegmentedControlWidth";
+import { MyInput } from "../../MyInput";
+
+export const CreateForm = () => {
+  const [isCreating, setIsCreating] = useState<boolean>(false);
+  const { closeAllBS } = useBottomSheet();
+  const { languages, dictionaryUrls } = useSupabase();
+
+  const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(languages[0].type);
+  const onLanguagePressed = useCallback((type: ELanguageType) => setSelectedLanguageType(type), []);
+
+  const [wordText, setWordText] = useState<string>("");
+  const onTextChanged = useCallback((text: string) => setWordText(text), []);
+
+  const onConfirmClicked = async () => {
+    setIsCreating(true);
+    // const isSuccess = await wordManager.createWord(selectedLanguageType, wordText);
+    setIsCreating(false);
+
+    // if (isSuccess) {
+    //   closeAllBS();
+    // }
+  };
+
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.container}>
+        <View>
+          <Title text="Select a Language category" />
+          <LanguageSegmentedControl languages={languages} onPressed={onLanguagePressed} selectedLanguageType={selectedLanguageType} />
+        </View>
+
+        <View>
+          <Title text={`Available ${Language.getName(selectedLanguageType)} Dictionaries`} />
+          <View>
+            {dictionaryUrls
+              .filter((url) => url.lang === selectedLanguageType)
+              .map((url) => (
+                <BulletList key={url.id} text={url.dict_name} />
+              ))}
+          </View>
+        </View>
+
+        <View>
+          <Title text="Enter a Word to save *" />
+          <SegmentedControlWidth>
+            <MyInput onChange={onTextChanged} text={wordText} placeholder="Word.." type="default" />
+          </SegmentedControlWidth>
+        </View>
+
+        <View>
+          <Title text="Enter a custom Dictionary URL (optional)" />
+          <SegmentedControlWidth>
+            <MyInput onChange={onTextChanged} text={wordText} placeholder="Custom URL.." type="web-search" />
+          </SegmentedControlWidth>
+        </View>
+
+        <MyButton useSegmentedWidth={true} titleNormal="Confirm" titleLoading="Creating..." onPressed={onConfirmClicked} isLoading={isCreating} />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    alignItems: "center",
+    width: "100%",
+  },
+  container: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    gap: 30,
+  },
+});

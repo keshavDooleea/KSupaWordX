@@ -1,12 +1,12 @@
-import { LANGUAGES } from "../../utils";
 import { SegmentedControl } from ".";
-import { ELanguageType } from "../../interfaces";
+import { ELanguageType, ILanguage } from "../../interfaces";
 
 interface ILanguageCheckboxProps {
+  languages: ILanguage[];
   onPressed: (type: ELanguageType) => void;
   selectedLanguageType: ELanguageType;
 }
 
-export const LanguageSegmentedControl = ({ onPressed, selectedLanguageType }: ILanguageCheckboxProps) => {
-  return <SegmentedControl types={LANGUAGES} onPressed={onPressed} selectedCategoryType={selectedLanguageType} />;
+export const LanguageSegmentedControl = ({ languages, onPressed, selectedLanguageType }: ILanguageCheckboxProps) => {
+  return <SegmentedControl types={languages} onPressed={onPressed} selectedCategoryType={selectedLanguageType} />;
 };

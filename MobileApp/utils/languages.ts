@@ -1,13 +1,8 @@
-import { ELanguageType, ECategoryType, ILanguage } from "../interfaces";
+import { ELanguageName, ELanguageType } from "../interfaces";
 
-export const LANGUAGES: ILanguage[] = [
-  {
-    type: ELanguageType.en,
-    name: "English",
-  },
-
-  {
-    type: ELanguageType.fr,
-    name: "French",
-  },
-];
+export class Language {
+  static getName = (lang: ELanguageType): ELanguageName => {
+    const name = lang === ELanguageType.en ? ELanguageName.en : ELanguageName.fr;
+    return name;
+  };
+}

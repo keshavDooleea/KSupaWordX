@@ -1,5 +1,6 @@
 export enum SupabaseTypes {
   PROFILES = "profiles",
   WORDS = "words",
-  URLS = "urls",
+  USER_WORDS = "user_word_urls",
+  DICT_URLS = "dict_urls",
 }

@@ -15,7 +15,7 @@ CREATE TABLE words (
 alter table words
   add constraint word_lang_constraint unique (word, lang);
 
-CREATE TABLE user_word_url (
+CREATE TABLE user_word_urls (
     id uuid not null primary key default uuid_generate_v4(),
     word_id uuid not null references words on delete cascade,
     user_id uuid not null references profiles on delete cascade default auth.uid(),

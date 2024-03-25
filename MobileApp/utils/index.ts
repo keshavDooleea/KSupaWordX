@@ -1,11 +1,11 @@
 import { CONSTANTS } from "./constants";
 import { ENV } from "./env";
-import { LANGUAGES } from "./languages";
+import { Language } from "./languages";
 import { colors } from "./styles/colors";
 import { globalStyles } from "./styles/global";
-import { supabase } from "./supabase/client";
 import { SupabaseTypes } from "./supabase/types";
 import { wordManager } from "./supabase/manager";
-import { CATEGORY_TYPES } from "./vocab";
+import { supabase } from "./supabase/client";
+import { SupabaseDB, SupabaseClientDB } from "./supabase/handler";
 
-export { CONSTANTS, wordManager, ENV, colors, globalStyles, supabase, CATEGORY_TYPES, LANGUAGES, SupabaseTypes };
+export { CONSTANTS, wordManager, ENV, colors, globalStyles, Language, SupabaseTypes, supabase, SupabaseDB, SupabaseClientDB };

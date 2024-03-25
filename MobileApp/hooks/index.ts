@@ -5,5 +5,6 @@ import { useDimensions } from "./useDimensions";
 import { useFont } from "./useFont";
 import { useImagePicker } from "./useImagePicker";
 import { useRouter } from "./useRouter";
+import { useSupabase } from "./useSupabase";
 
-export { useAlert, useAuth, useRouter, useImagePicker, useBottomSheet, useFont, useDimensions };
+export { useAlert, useAuth, useRouter, useImagePicker, useBottomSheet, useFont, useDimensions, useSupabase };
