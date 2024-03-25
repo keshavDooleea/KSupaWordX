@@ -1,18 +1,19 @@
 import { StyleSheet, View } from "react-native";
 import { ELanguageType } from "../../../interfaces";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Title } from "../../Title";
 import { LanguageSegmentedControl } from "../../SegmentedControl/LanguageSegmentedControl";
 import { MyButton } from "../../MyButton";
-import { useBottomSheet, useSupabase } from "../../../hooks";
+import { useAuth, useBottomSheet, useSupabase } from "../../../hooks";
 import { BulletList } from "../../BulletList";
-import { Language } from "../../../utils";
+import { Language, SupabaseDB } from "../../../utils";
 import { SegmentedControlWidth } from "../../SegmentedControl/SegmentedControlWidth";
 import { MyInput } from "../../MyInput";
 
 export const CreateForm = () => {
   const [isCreating, setIsCreating] = useState<boolean>(false);
   const { closeAllBS } = useBottomSheet();
+  const { user } = useAuth();
   const { languages, dictionaryUrls } = useSupabase();
 
   const [selectedLanguageType, setSelectedLanguageType] = useState<ELanguageType>(languages[0].type);
@@ -21,14 +22,24 @@ export const CreateForm = () => {
   const [wordText, setWordText] = useState<string>("");
   const onTextChanged = useCallback((text: string) => setWordText(text), []);
 
+  const [customUrl, setCustomUrl] = useState<string>("");
+  const onCustomUrlChanged = useCallback((url: string) => setCustomUrl(url), []);
+
+  useEffect(() => {
+    console.log("MUTNde");
+  }, []);
+
   const onConfirmClicked = async () => {
     setIsCreating(true);
-    // const isSuccess = await wordManager.createWord(selectedLanguageType, wordText);
+    const isSuccess = await SupabaseDB.createUserWord(user?.id, selectedLanguageType, wordText, customUrl);
     setIsCreating(false);
 
-    // if (isSuccess) {
-    //   closeAllBS();
-    // }
+    if (isSuccess) {
+      closeAllBS();
+      setSelectedLanguageType(languages[0].type);
+      setWordText("");
+      setCustomUrl("");
+    }
   };
 
   return (
@@ -60,7 +71,7 @@ export const CreateForm = () => {
         <View>
           <Title text="Enter a custom Dictionary URL (optional)" />
           <SegmentedControlWidth>
-            <MyInput onChange={onTextChanged} text={wordText} placeholder="Custom URL.." type="web-search" />
+            <MyInput onChange={onCustomUrlChanged} text={wordText} placeholder="Custom URL.." type="web-search" />
           </SegmentedControlWidth>
         </View>
 

@@ -17,7 +17,7 @@ alter table words
 
 CREATE TABLE user_word_urls (
     id uuid not null primary key default uuid_generate_v4(),
-    word_id uuid not null references words on delete cascade,
+    word_id uuid not null unique references words on delete cascade,
     user_id uuid not null references profiles on delete cascade default auth.uid(),
     custom_word_url VARCHAR(255)
 );
@@ -42,6 +42,18 @@ alter table dict_urls
 
 
 -- POLICIES
+create policy "Users can read words." 
+    on words
+    for select  
+    to authenticated
+    using (true); 
+
+create policy "Users can insert words." 
+    on words
+    for insert  
+    to authenticated
+    with check (true); 
+
 create policy "Users can perform all actions on their own word URLS." 
     on user_word_url
     for all 

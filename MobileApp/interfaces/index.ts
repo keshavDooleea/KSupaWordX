@@ -1,6 +1,7 @@
 import { DispatchState } from "./dispatchState";
 import { ELanguageType, ILanguage, ELanguageName } from "./language";
-import { IDictUrls } from "./dictionary_urls";
-import { IWords } from "./schemas/word";
+import { IDictUrl } from "./schemas/dictionary_urls";
+import { IWord } from "./schemas/word";
+import { IUserWord } from "./schemas/user_word";
 
-export { DispatchState, ELanguageType, IWords, IDictUrls, ILanguage, ELanguageName };
+export { DispatchState, ELanguageType, IWord, IDictUrl, ILanguage, ELanguageName, IUserWord };

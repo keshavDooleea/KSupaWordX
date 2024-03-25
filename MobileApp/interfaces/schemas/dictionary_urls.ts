@@ -1,6 +1,6 @@
-import { ELanguageType } from "./language";
+import { ELanguageType } from "../language";
 
-export interface IDictUrls {
+export interface IDictUrl {
   id: string;
   dict_name: string;
   dict_url: string;
