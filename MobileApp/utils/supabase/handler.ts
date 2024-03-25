@@ -79,4 +79,9 @@ export class SupabaseDB {
       return false;
     }
   }
+
+  static async getUserWords(userId: string | undefined, lang: ELanguageType): Promise<IUserWord[] | null> {
+    const { data, error } = await supabase.from(SupabaseTypes.USER_WORDS).select(`user_id, custom_word_url, word_id, ${SupabaseTypes.WORDS}!inner (id, word, lang)`).eq("user_id", userId).eq(`${SupabaseTypes.WORDS}.lang`, lang).returns<IUserWord[]>();
+    return error || !data ? null : data;
+  }
 }

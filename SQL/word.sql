@@ -16,10 +16,10 @@ alter table words
   add constraint word_lang_constraint unique (word, lang);
 
 CREATE TABLE user_word_urls (
-    id uuid not null primary key default uuid_generate_v4(),
-    word_id uuid not null unique references words on delete cascade,
-    user_id uuid not null references profiles on delete cascade default auth.uid(),
-    custom_word_url VARCHAR(255)
+    word_id uuid not null references words on delete cascade,
+    user_id uuid not null references profiles on delete cascade,
+    custom_word_url VARCHAR(255),
+    primary key (word_id, user_id)
 );
 
 CREATE TABLE dict_urls (

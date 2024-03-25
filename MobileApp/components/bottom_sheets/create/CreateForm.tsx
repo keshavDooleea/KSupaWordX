@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { ELanguageType } from "../../../interfaces";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Title } from "../../Title";
 import { LanguageSegmentedControl } from "../../SegmentedControl/LanguageSegmentedControl";
 import { MyButton } from "../../MyButton";
@@ -24,10 +24,6 @@ export const CreateForm = () => {
 
   const [customUrl, setCustomUrl] = useState<string>("");
   const onCustomUrlChanged = useCallback((url: string) => setCustomUrl(url), []);
-
-  useEffect(() => {
-    console.log("MUTNde");
-  }, []);
 
   const onConfirmClicked = async () => {
     setIsCreating(true);
