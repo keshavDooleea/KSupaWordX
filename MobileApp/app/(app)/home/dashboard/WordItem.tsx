@@ -3,16 +3,17 @@ import { IUserWord } from "../../../../interfaces";
 import { MyText } from "../../../../components";
 import { CONSTANTS, DateUtil, colors } from "../../../../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useBottomSheet } from "../../../../hooks";
 
 interface IWordItemProps {
   word: IUserWord;
 }
 
 export const WordItem = ({ word }: IWordItemProps) => {
-  const onPressed = () => {};
+  const { openWebViewBS } = useBottomSheet();
 
   return (
-    <TouchableOpacity onPress={onPressed} style={styles.container}>
+    <TouchableOpacity onPress={() => openWebViewBS(word)} style={styles.container}>
       <View style={styles.header}>
         <MyText text={word.word.word} style={styles.headerTitle} />
         <MyText text={DateUtil.getFormattedDate(word.created_at)} />

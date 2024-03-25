@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useAuth } from "../../../hooks";
-import { CreateBottomSheet } from "../../../components/bottom_sheets";
+import { CreateBottomSheet, WebViewBottomSheet } from "../../../components";
 import { CONSTANTS, colors } from "../../../utils";
 import { HomeDashboard } from "./dashboard";
 
@@ -17,7 +17,9 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <HomeDashboard />
+
       <CreateBottomSheet />
+      <WebViewBottomSheet />
     </View>
   );
 }

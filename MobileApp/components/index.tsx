@@ -8,5 +8,6 @@ import { MyInput } from "./MyInput";
 import { MyButton } from "./MyButton";
 import { BulletList } from "./BulletList";
 import { SegmentedControlWidth } from "./SegmentedControl/SegmentedControlWidth";
+import { WebViewBottomSheet, CreateBottomSheet } from "./bottom_sheets";
 
-export { MyButton, MyInput, BulletList, IconButton, SplashScreen, MyText, SegmentedControl, SegmentedControlWidth, LanguageSegmentedControl, Title };
+export { MyButton, MyInput, BulletList, IconButton, CreateBottomSheet, WebViewBottomSheet, SplashScreen, MyText, SegmentedControl, SegmentedControlWidth, LanguageSegmentedControl, Title };
