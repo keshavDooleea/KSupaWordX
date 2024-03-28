@@ -23,9 +23,9 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string, word?: string): Promise<void> {
-    console.log("url", url);
+    console.log("url", word);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
-    console.log("1");
+
     await this.page.waitForResponse(async (response) => {
       if (response.url().includes(word)) {
         console.log("TEXT");
@@ -36,14 +36,11 @@ export class PuppeteerTranslationService implements ITranslationService {
         console.log("YESSS");
         console.log(response.url());
       }
-      return (await response.text()).includes("<html>");
+
+      console.log("inc", (await response.text()).includes("<html"));
+      return (await response.text()).includes("<html");
     });
     console.log("2");
-    await this.page.waitForResponse((response) => {
-      console.log(response);
-      return response.url() === url && response.status() === 200;
-    });
-    console.log("3");
   }
 
   async setViewport(): Promise<void> {
