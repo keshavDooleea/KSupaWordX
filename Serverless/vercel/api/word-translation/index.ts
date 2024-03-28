@@ -1,17 +1,20 @@
 import { NowRequest, NowResponse } from "@now/node";
-import { ISupaRequest } from "../../src/interfaces";
-import { RequestHandler, WordTranslate } from "../../src/utils";
+import { ISupaRequest, ITranslationService } from "../../src/interfaces";
+import { RequestHandler, WordTranslate, PuppeteerTranslationService, SupabaseHandler } from "../../src/utils";
 
 const handler = async (req: NowRequest, res: NowResponse) => {
   const supaRequest = (await req.body) as ISupaRequest;
 
-  if (!RequestHandler.isRequestValid(supaRequest)) {
-    return RequestHandler.sendResponse(res, "Invalid Response");
-  }
-
   try {
-    const wordTranslate = new WordTranslate(supaRequest.record);
-    await wordTranslate.translate();
+    if (!RequestHandler.isRequestValid(supaRequest)) {
+      return RequestHandler.sendResponse(res, "Invalid Response");
+    }
+
+    const supabase = new SupabaseHandler();
+
+    const puppTranslationService: ITranslationService = new PuppeteerTranslationService();
+    const wordTranslate = new WordTranslate(supaRequest.record, puppTranslationService);
+    const translations = await wordTranslate.translate();
 
     RequestHandler.sendResponse(res, "OK");
   } catch (err) {

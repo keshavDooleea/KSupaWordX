@@ -12,6 +12,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@now/node": "^1.8.5"
+    "@now/node": "^1.8.5",
+    "puppeteer": "^22.6.1"
   }
 }

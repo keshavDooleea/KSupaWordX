@@ -1,7 +1,7 @@
-import { ELanguageType } from "./language";
+import { ELanguageType } from "./Language";
 
 export interface ISupaPayload {
   id: string;
   word: string;
-  land: ELanguageType;
+  lang: ELanguageType;
 }
