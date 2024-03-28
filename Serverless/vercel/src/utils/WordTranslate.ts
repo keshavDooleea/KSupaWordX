@@ -25,7 +25,7 @@ export class WordTranslate {
 
   async translate(): Promise<string[]> {
     await this.translationService.init();
-    await this.translationService.goTo(this.translatedUrl);
+    await this.translationService.goTo(this.translatedUrl, this.word.word);
     await this.translationService.setViewport();
     const translations = await this.translationService.grabTranslations(this.HTML__TRANSLATION_SELECTORS);
     console.log("TRR", translations);

@@ -22,11 +22,16 @@ export class PuppeteerTranslationService implements ITranslationService {
     await this.browser.close();
   }
 
-  async goTo(url: string): Promise<void> {
+  async goTo(url: string, word?: string): Promise<void> {
     console.log("url", url);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
     console.log("1");
     await this.page.waitForResponse(async (response) => {
+      if (response.url().includes(word)) {
+        console.log("TEXT");
+        console.log(response.url());
+      }
+
       if (response.url().includes(url)) {
         console.log("YESSS");
         console.log(response.url());
