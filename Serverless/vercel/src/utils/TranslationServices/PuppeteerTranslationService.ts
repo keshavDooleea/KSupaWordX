@@ -26,9 +26,12 @@ export class PuppeteerTranslationService implements ITranslationService {
     console.log("url", url);
     await this.page.goto(url);
     console.log("1");
-    await this.page.waitForResponse((response) => response.url() === url && response.status() === 200);
-    console.log("2");
     await this.page.waitForResponse(async (response) => (await response.text()).includes("<html>"));
+    console.log("2");
+    await this.page.waitForResponse((response) => {
+      console.log(response);
+      return response.url() === url && response.status() === 200;
+    });
     console.log("3");
   }
 
