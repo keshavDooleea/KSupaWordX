@@ -25,18 +25,7 @@ export class PuppeteerTranslationService implements ITranslationService {
   async goTo(url: string, word?: string): Promise<void> {
     console.log("url", word);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
-    console.log("done");
     // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
-
-    const el1 = await this.page.waitForSelector('span>span[data-phrase-index="0"]>span[jsaction]', {
-      timeout: 10000000,
-    });
-
-    console.log({ el1 });
-    const texts = [await el1.evaluate((e) => e.textContent)];
-    console.log({ texts });
-
-    console.log("2");
   }
 
   async setViewport(): Promise<void> {
@@ -50,13 +39,14 @@ export class PuppeteerTranslationService implements ITranslationService {
 
     for await (const selector of htmlSelectors) {
       console.log("selector", selector);
-      const words: string[] = await this.page.$$eval(selector, (elements) =>
-        elements.flatMap((element) => {
+      const words: string[] = await this.page.$$eval(selector, (elements) => {
+        console.log("ele", elements);
+        return elements.flatMap((element) => {
           const word = element.textContent;
           console.log("W", word);
           return word.includes("Try again") ? [] : word;
-        })
-      );
+        });
+      });
 
       words.forEach(translatedWords.add, translatedWords);
     }
