@@ -5,7 +5,7 @@ export class WordTranslate {
   private HTML__TRANSLATION_SELECTORS = [".HwtZe", ".ryNqvb"];
 
   constructor(private word: ISupaPayload, private translationService: ITranslationService) {
-    console.log(`Translating: ${word.word}`);
+    // console.log(`Translating: ${word.word}`);
   }
 
   private get translatedUrl(): string {
