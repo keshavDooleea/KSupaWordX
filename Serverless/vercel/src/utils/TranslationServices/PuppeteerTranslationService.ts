@@ -15,6 +15,8 @@ export class PuppeteerTranslationService implements ITranslationService {
       ignoreHTTPSErrors: true,
     });
 
+    console.log("LAUNC");
+
     this.page = await this.browser.newPage();
   }
 
@@ -23,6 +25,7 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string): Promise<void> {
+    console.log("URL", url);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
   }
 
