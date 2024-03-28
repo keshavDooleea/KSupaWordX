@@ -23,10 +23,12 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string): Promise<void> {
-    await this.page.goto(url, { waitUntil: "domcontentloaded" });
-    await this.page.waitForNetworkIdle();
+    await this.page.goto(url, { waitUntil: "networkidle0" });
+    console.log("1");
     await this.page.waitForResponse((response) => response.url() === url && response.status() === 200);
+    console.log("2");
     await this.page.waitForResponse(async (response) => (await response.text()).includes("<html>"));
+    console.log("3");
   }
 
   async setViewport(): Promise<void> {
