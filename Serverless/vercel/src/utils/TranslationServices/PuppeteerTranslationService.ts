@@ -32,7 +32,7 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {
     console.log("sele", htmlSelectors);
-    await this.page.waitForSelector(htmlSelectors[1]);
+    await new Promise((r) => setTimeout(r, 3000));
     console.log("1");
 
     const translatedWords = new Set<string>();
