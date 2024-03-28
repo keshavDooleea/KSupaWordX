@@ -23,7 +23,8 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string): Promise<void> {
-    await this.page.goto(url, { waitUntil: "networkidle0" });
+    console.log("url", url);
+    await this.page.goto(url);
     console.log("1");
     await this.page.waitForResponse((response) => response.url() === url && response.status() === 200);
     console.log("2");
