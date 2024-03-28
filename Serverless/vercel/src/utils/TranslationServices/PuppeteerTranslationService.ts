@@ -23,7 +23,6 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string, word?: string): Promise<void> {
-    console.log("url", word);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
     // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
   }
@@ -41,7 +40,8 @@ export class PuppeteerTranslationService implements ITranslationService {
       console.log("selector", selector);
 
       const translatedResult = await this.page.evaluate(() => {
-        return document.querySelectorAll(selector)[0].textContent;
+        console.log("AAA", document.querySelectorAll(".ryNqvb"));
+        return document.querySelectorAll(".ryNqvb")[0].textContent;
       });
 
       console.log("TT", translatedResult);
