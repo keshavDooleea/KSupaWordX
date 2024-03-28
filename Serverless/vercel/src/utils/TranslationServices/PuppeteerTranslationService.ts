@@ -15,8 +15,6 @@ export class PuppeteerTranslationService implements ITranslationService {
       ignoreHTTPSErrors: true,
     });
 
-    console.log("LAUNC");
-
     this.page = await this.browser.newPage();
   }
 
@@ -25,7 +23,6 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string): Promise<void> {
-    console.log("URL", url);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
   }
 
@@ -34,20 +31,26 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {
+    console.log("sele", htmlSelectors);
     await this.page.waitForSelector(htmlSelectors[1]);
+    console.log("1");
 
     const translatedWords = new Set<string>();
 
     for await (const selector of htmlSelectors) {
+      console.log("selector", selector);
       const words: string[] = await this.page.$$eval(selector, (elements) =>
         elements.flatMap((element) => {
           const word = element.textContent;
+          console.log("W", word);
           return word.includes("Try again") ? [] : word;
         })
       );
 
       words.forEach(translatedWords.add, translatedWords);
     }
+
+    console.log("d", [...translatedWords]);
 
     return [...translatedWords];
   }
