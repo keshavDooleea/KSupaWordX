@@ -39,6 +39,13 @@ export class PuppeteerTranslationService implements ITranslationService {
 
     for await (const selector of htmlSelectors) {
       console.log("selector", selector);
+
+      const translatedResult = await this.page.evaluate(() => {
+        return document.querySelectorAll(selector)[0].textContent;
+      });
+
+      console.log("TT", translatedResult);
+
       const words: string[] = await this.page.$$eval(selector, (elements) => {
         console.log("ele", elements);
         return elements.flatMap((element) => {
