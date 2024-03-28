@@ -27,7 +27,8 @@ export class PuppeteerTranslationService implements ITranslationService {
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
     console.log("1");
     await this.page.waitForResponse(async (response) => {
-      console.log(response);
+      console.log(response.url());
+      console.log(response.status());
       return (await response.text()).includes("<html>");
     });
     console.log("2");
