@@ -9,12 +9,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@sparticuz/chromium": "^123.0.0",
     "typescript": "^5.4.3"
   },
   "dependencies": {
     "@now/node": "^1.8.5",
+    "@sparticuz/chromium": "^123.0.0",
     "@supabase/supabase-js": "^2.40.0",
-    "puppeteer-core": "^19.6.3"
+    "puppeteer-core": "^22.6.1"
   }
 }

@@ -8,13 +8,10 @@ export class PuppeteerTranslationService implements ITranslationService {
   private viewport: Viewport = { width: 1080, height: 1024 };
 
   async init(): Promise<void> {
-    await chromium.font("https://raw.githack.com/googlei18n/noto-emoji/master/fonts/NotoColorEmoji.ttf");
-
     this.browser = await puppeteer.launch({
-      args: [...chromium.args, "--disable-web-security"],
-      executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.0/chromium-v123.0.0-pack.tar"),
-      defaultViewport: this.viewport,
-      headless: "new",
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: true,
       ignoreHTTPSErrors: true,
     });
 
