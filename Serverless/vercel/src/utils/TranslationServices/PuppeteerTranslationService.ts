@@ -25,22 +25,16 @@ export class PuppeteerTranslationService implements ITranslationService {
   async goTo(url: string, word?: string): Promise<void> {
     console.log("url", word);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
+    // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
 
-    await this.page.waitForResponse(async (response) => {
-      console.log(response.url());
-
-      if (response.url().includes(word)) {
-        console.log("TEXT");
-        console.log(response.url());
-      }
-
-      if (response.url().includes(url)) {
-        console.log("YESSS");
-        console.log(response.url());
-      }
-
-      return (await response.text()).includes("<html");
+    const el1 = await this.page.waitForSelector('span>span[data-phrase-index="0"]>span[jsaction]', {
+      timeout: 10000000,
     });
+
+    console.log({ el1 });
+    const texts = [await el1.evaluate((e) => e.textContent)];
+    console.log({ texts });
+
     console.log("2");
   }
 
