@@ -4,7 +4,9 @@ export class WordTranslate {
   private BASE_URL = "https://translate.google.com";
   private HTML__TRANSLATION_SELECTORS = [".HwtZe", ".ryNqvb"];
 
-  constructor(private word: ISupaPayload, private translationService: ITranslationService) {}
+  constructor(private word: ISupaPayload, private translationService: ITranslationService) {
+    console.log(`Translating ${word.word}`);
+  }
 
   private get translatedUrl(): string {
     let sl = "";
@@ -28,6 +30,7 @@ export class WordTranslate {
     const translations = await this.translationService.grabTranslations(this.HTML__TRANSLATION_SELECTORS);
     await this.translationService.close();
 
+    console.log(`Translations found: ${translations}`);
     return translations;
   }
 }

@@ -1,12 +1,20 @@
 import { ITranslationService } from "../../interfaces";
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser, Page, Viewport } from "puppeteer";
+import chromium from "@sparticuz/chromium";
 
 export class PuppeteerTranslationService implements ITranslationService {
   private browser: Browser;
   private page: Page;
+  private viewport: Viewport = { width: 1080, height: 1024 };
 
   async init(): Promise<void> {
-    this.browser = await puppeteer.launch();
+    this.browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      defaultViewport: this.viewport,
+      headless: true,
+    });
+
     this.page = await this.browser.newPage();
   }
 
@@ -19,7 +27,7 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async setViewport(): Promise<void> {
-    await this.page.setViewport({ width: 1080, height: 1024 });
+    await this.page.setViewport(this.viewport);
   }
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {

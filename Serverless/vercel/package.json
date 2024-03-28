@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@sparticuz/chromium": "^123.0.0",
     "typescript": "^5.4.3"
   },
   "dependencies": {
