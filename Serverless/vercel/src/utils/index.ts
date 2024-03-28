@@ -1,3 +1,4 @@
-import { RequestValidator } from "./RequestValidator";
+import { RequestHandler } from "./RequestHandler";
+import { WordTranslate } from "./WordTranslate";
 
-export { RequestValidator };
+export { RequestHandler, WordTranslate };
