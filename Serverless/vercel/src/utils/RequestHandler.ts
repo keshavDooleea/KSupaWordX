@@ -1,11 +1,11 @@
 import { NowResponse } from "@now/node";
 import { ISupaRequest } from "../interfaces";
+import { ENV } from "./Env";
 
 export class RequestHandler {
   static isRequestValid({ type, table }: ISupaRequest): boolean {
     if (!type || !table) return false;
-
-    return type === process.env.SUPABASE_TRANSLATION_TYPE && table === process.env.SUPABASE_TRANSLATION_TABLE;
+    return type === ENV.supabaseType && table === ENV.supabaseTable;
   }
 
   static sendResponse(res: NowResponse, message: string): void {

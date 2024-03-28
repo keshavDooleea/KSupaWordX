@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@now/node": "^1.8.5",
+    "@supabase/supabase-js": "^2.40.0",
     "puppeteer": "^22.6.1"
   }
 }

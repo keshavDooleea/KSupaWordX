@@ -1,5 +1,5 @@
 import { NowRequest, NowResponse } from "@now/node";
-import { ISupaRequest, ITranslationService } from "../../src/interfaces";
+import { ISupaRequest } from "../../src/interfaces";
 import { RequestHandler, WordTranslate, PuppeteerTranslationService, SupabaseHandler } from "../../src/utils";
 
 const handler = async (req: NowRequest, res: NowResponse) => {
@@ -10,11 +10,15 @@ const handler = async (req: NowRequest, res: NowResponse) => {
       return RequestHandler.sendResponse(res, "Invalid Response");
     }
 
-    const supabase = new SupabaseHandler();
+    const supabase = new SupabaseHandler(supaRequest.record);
 
-    const puppTranslationService: ITranslationService = new PuppeteerTranslationService();
-    const wordTranslate = new WordTranslate(supaRequest.record, puppTranslationService);
+    if (!supabase.doesWordExist()) {
+      return RequestHandler.sendResponse(res, "Invalid Word");
+    }
+
+    const wordTranslate = new WordTranslate(supaRequest.record, new PuppeteerTranslationService());
     const translations = await wordTranslate.translate();
+    await supabase.addTranslationsToWord(translations);
 
     RequestHandler.sendResponse(res, "OK");
   } catch (err) {
