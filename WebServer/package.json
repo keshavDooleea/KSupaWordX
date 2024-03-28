@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "supabase": "^1.148.6"
+  },
+  "dependencies": {
+    "translate-google": "^1.5.0"
   }
 }

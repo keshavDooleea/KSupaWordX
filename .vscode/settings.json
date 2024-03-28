@@ -1,0 +1,8 @@
+{
+  "deno.enable": true,
+  "deno.unstable": true,
+  "deno.importMap": "./WebServer/supabase/functions/import_map.json",
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": false
+  }
+}
