@@ -10,7 +10,7 @@ CREATE TABLE words (
     id uuid not null primary key default uuid_generate_v4(),
     word VARCHAR(50) not null,
     lang language not null,
-    translations text array
+    translations text array default {}
 );
 
 alter table words
@@ -47,13 +47,20 @@ alter table dict_urls
 create policy "Users can read words." 
     on words
     for select  
-    to anon
+    to authenticated, anon
     using (true); 
 
 create policy "Users can insert words." 
     on words
     for insert  
     to authenticated
+    with check (true); 
+  
+create policy "Users can update words." 
+    on words
+    for update  
+    to anon
+    using (true)
     with check (true); 
 
 create policy "Users can perform all actions on their own word URLS." 
