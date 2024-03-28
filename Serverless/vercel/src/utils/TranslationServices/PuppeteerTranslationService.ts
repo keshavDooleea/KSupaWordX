@@ -25,6 +25,7 @@ export class PuppeteerTranslationService implements ITranslationService {
   async goTo(url: string, word?: string): Promise<void> {
     console.log("url", word);
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
+    console.log("done");
     // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
 
     const el1 = await this.page.waitForSelector('span>span[data-phrase-index="0"]>span[jsaction]', {

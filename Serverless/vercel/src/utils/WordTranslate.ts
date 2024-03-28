@@ -20,7 +20,7 @@ export class WordTranslate {
       tl = ELanguageType.en;
     }
 
-    return `${this.BASE_URL}/?sl=${sl}&tl=${tl}&text=${this.word.word}`;
+    return `${this.BASE_URL}/?sl=${sl}&tl=${tl}&text=${encodeURIComponent(this.word.word)}&op=translate`;
   }
 
   async translate(): Promise<string[]> {
