@@ -1,12 +1,15 @@
 import { NowRequest, NowResponse } from "@now/node";
+import { ISupaRequest } from "../../src/interfaces";
+import { RequestValidator } from "../../src/utils";
 
 const handler = async (req: NowRequest, res: NowResponse) => {
-  const { id: wordId, lang, word, ...w } = await req.body;
+  const supaRequest = (await req.body) as ISupaRequest;
 
-  console.log("GOT IT", w);
-  console.log({ wordId, lang, word });
+  if (RequestValidator.isValid(supaRequest)) {
+    res.send("Invalid Request");
+  }
 
-  res.send({ message: "Vercel typescript API boilerplate kkk" });
+  console.log("GOT IT 2", supaRequest);
 };
 
 export default handler;
