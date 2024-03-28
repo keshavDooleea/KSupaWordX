@@ -9,10 +9,11 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async init(): Promise<void> {
     this.browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
+      args: [...chromium.args, "--disable-web-security"],
+      executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar"),
       defaultViewport: this.viewport,
       headless: true,
+      ignoreHTTPSErrors: true,
     });
 
     this.page = await this.browser.newPage();
