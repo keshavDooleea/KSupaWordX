@@ -12,9 +12,9 @@ export class PuppeteerTranslationService implements ITranslationService {
 
     this.browser = await puppeteer.launch({
       args: [...chromium.args, "--disable-web-security"],
-      executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar"),
+      executablePath: await chromium.executablePath("https://github.com/Sparticuz/chromium/releases/download/v123.0.0/chromium-v123.0.0-pack.tar"),
       defaultViewport: this.viewport,
-      headless: true,
+      headless: "new",
       ignoreHTTPSErrors: true,
     });
 
