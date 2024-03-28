@@ -24,6 +24,9 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async goTo(url: string): Promise<void> {
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
+    await this.page.waitForNetworkIdle();
+    await this.page.waitForResponse((response) => response.url() === url && response.status() === 200);
+    await this.page.waitForResponse(async (response) => (await response.text()).includes("<html>"));
   }
 
   async setViewport(): Promise<void> {
@@ -32,8 +35,6 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {
     console.log("sele", htmlSelectors);
-    await new Promise((r) => setTimeout(r, 3000));
-    console.log("1");
 
     const translatedWords = new Set<string>();
 
