@@ -1,5 +1,5 @@
 import { ITranslationService } from "../../interfaces";
-import puppeteer, { Browser, Page, Viewport } from "puppeteer";
+import puppeteer, { Browser, Page, Viewport } from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 
 export class PuppeteerTranslationService implements ITranslationService {

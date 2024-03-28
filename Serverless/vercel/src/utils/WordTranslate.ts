@@ -5,7 +5,7 @@ export class WordTranslate {
   private HTML__TRANSLATION_SELECTORS = [".HwtZe", ".ryNqvb"];
 
   constructor(private word: ISupaPayload, private translationService: ITranslationService) {
-    console.log(`Translating ${word.word}`);
+    console.log(`Translating: ${word.word}`);
   }
 
   private get translatedUrl(): string {
@@ -28,6 +28,7 @@ export class WordTranslate {
     await this.translationService.goTo(this.translatedUrl);
     await this.translationService.setViewport();
     const translations = await this.translationService.grabTranslations(this.HTML__TRANSLATION_SELECTORS);
+    console.log("TRR", translations);
     await this.translationService.close();
 
     console.log(`Translations found: ${translations}`);

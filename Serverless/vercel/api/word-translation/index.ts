@@ -22,7 +22,7 @@ const handler = async (req: NowRequest, res: NowResponse) => {
 
     RequestHandler.sendResponse(res, "OK");
   } catch (err) {
-    console.log({ error: err });
+    console.log(err);
     RequestHandler.sendResponse(res, `Error during translation for ${supaRequest.record.id}`);
   }
 };
