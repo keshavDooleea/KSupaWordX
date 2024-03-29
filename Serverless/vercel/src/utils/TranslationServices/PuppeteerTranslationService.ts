@@ -23,9 +23,10 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string, word?: string): Promise<void> {
-    await this.page.goto(url, { waitUntil: "domcontentloaded" });
-    await this.page.waitForSelector("#source");
+    await this.page.goto(url);
     console.log("WAIT DONE");
+    await this.page.waitForSelector("#source");
+    console.log("WAIT DONE 2");
   }
 
   async setViewport(): Promise<void> {
@@ -41,18 +42,18 @@ export class PuppeteerTranslationService implements ITranslationService {
     for await (const selector of htmlSelectors) {
       console.log("selector", selector);
 
+      const translatedResult2 = await this.page.evaluate(() => {
+        console.log("BBB", document.querySelectorAll(".result-shield-container"));
+        return document.querySelectorAll(".result-shield-container")[0].textContent;
+      });
+      console.log("TT2", translatedResult2);
+
       const translatedResult = await this.page.evaluate(() => {
         console.log("AAA", document.querySelectorAll(".ryNqvb"));
         return document.querySelectorAll(".ryNqvb")[0].textContent;
       });
 
-      const translatedResult2 = await this.page.evaluate(() => {
-        console.log("BBB", document.querySelectorAll(".result-shield-container"));
-        return document.querySelectorAll(".result-shield-container")[0].textContent;
-      });
-
       console.log("TT", translatedResult);
-      console.log("TT2", translatedResult2);
 
       const words: string[] = await this.page.$$eval(selector, (elements) => {
         console.log("ele", elements);
