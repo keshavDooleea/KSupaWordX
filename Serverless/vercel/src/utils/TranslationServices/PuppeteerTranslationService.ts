@@ -23,10 +23,33 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string, word?: string): Promise<void> {
-    await this.page.goto(url);
-    console.log("WAIT DONE");
-    await this.page.waitForSelector("#source");
-    console.log("WAIT DONE 2");
+    // await this.page.goto(url);
+    // console.log("WAIT DONE");
+    // await this.page.waitForSelector("#source");
+    // console.log("WAIT DONE 2");
+
+    await this.page.goto("https://developer.chrome.com/");
+
+    // Set screen size
+    await this.page.setViewport({ width: 1080, height: 1024 });
+    console.log("1");
+    // Type into search box
+    await this.page.type(".devsite-search-field", "automate beyond recorder");
+    console.log("2");
+
+    // Wait and click on first result
+    const searchResultSelector = ".devsite-result-item-link";
+    await this.page.waitForSelector(searchResultSelector);
+    console.log("3");
+    await this.page.click(searchResultSelector);
+    console.log("4");
+
+    // Locate the full title with a unique string
+    const textSelector = await this.page.waitForSelector("text/Customize and automate");
+    const fullTitle = await textSelector?.evaluate((el) => el.textContent);
+
+    // Print the full title
+    console.log('The title of this blog post is "%s".', fullTitle);
   }
 
   async setViewport(): Promise<void> {
