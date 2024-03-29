@@ -23,35 +23,7 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async goTo(url: string, word?: string): Promise<void> {
-    // await this.page.goto(url);
-    // console.log("WAIT DONE");
-    // await this.page.waitForSelector("#source");
-    // console.log("WAIT DONE 2");
-
-    console.log("12");
-    await this.page.goto("https://developer.chrome.com/", { waitUntil: "networkidle0" });
-    console.log("11");
-
-    // Set screen size
-    await this.page.setViewport({ width: 1080, height: 1024 });
-    console.log("1");
-    // Type into search box
-    await this.page.type(".devsite-search-field", "automate beyond recorder");
-    console.log("2");
-
-    // Wait and click on first result
-    const searchResultSelector = ".devsite-result-item-link";
-    await this.page.waitForSelector(searchResultSelector);
-    console.log("3");
-    await this.page.click(searchResultSelector);
-    console.log("4");
-
-    // Locate the full title with a unique string
-    const textSelector = await this.page.waitForSelector("text/Customize and automate");
-    const fullTitle = await textSelector?.evaluate((el) => el.textContent);
-
-    // Print the full title
-    console.log('The title of this blog post is "%s".', fullTitle);
+    await this.page.goto(url);
   }
 
   async setViewport(): Promise<void> {
@@ -60,31 +32,12 @@ export class PuppeteerTranslationService implements ITranslationService {
   }
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {
-    console.log("sele", htmlSelectors);
-
     const translatedWords = new Set<string>();
 
     for await (const selector of htmlSelectors) {
-      console.log("selector", selector);
-
-      const translatedResult2 = await this.page.evaluate(() => {
-        console.log("BBB", document.querySelectorAll(".result-shield-container"));
-        return document.querySelectorAll(".result-shield-container")[0].textContent;
-      });
-      console.log("TT2", translatedResult2);
-
-      const translatedResult = await this.page.evaluate(() => {
-        console.log("AAA", document.querySelectorAll(".ryNqvb"));
-        return document.querySelectorAll(".ryNqvb")[0].textContent;
-      });
-
-      console.log("TT", translatedResult);
-
       const words: string[] = await this.page.$$eval(selector, (elements) => {
-        console.log("ele", elements);
         return elements.flatMap((element) => {
           const word = element.textContent;
-          console.log("W", word);
           return word.includes("Try again") ? [] : word;
         });
       });
