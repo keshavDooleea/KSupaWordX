@@ -1,7 +1,7 @@
 import { ITranslationService } from "../../interfaces";
 import puppeteer, { Browser, Page, Viewport } from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
 import { ENV } from "../Env";
+import chromium from "@sparticuz/chromium";
 
 export class PuppeteerTranslationService implements ITranslationService {
   private browser: Browser;
@@ -10,9 +10,10 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async init(): Promise<void> {
     this.browser = await puppeteer.launch({
-      args: [...chromium.args, "--disable-gpu"],
-      executablePath: ENV.chromePath || (await chromium.executablePath),
+      args: [...chromium.args, "--disable-gpu", "--disable-extensions", "--no-sandbox"],
+      executablePath: ENV.chromePath || (await chromium.executablePath()),
       headless: true,
+      ignoreHTTPSErrors: true,
     });
 
     this.page = await this.browser.newPage();
