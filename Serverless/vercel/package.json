@@ -18,6 +18,8 @@
     "@sparticuz/chromium": "^110.0.0",
     "@supabase/supabase-js": "^2.40.0",
     "@vercel/node": "^3.0.25",
-    "puppeteer-core": "^19.6.3"
+    "puppeteer-core": "^19.6.3",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }

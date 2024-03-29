@@ -1,7 +1,9 @@
 import { ITranslationService } from "../../interfaces";
-import puppeteer, { Browser, Page, Viewport } from "puppeteer-core";
+import { Browser, Page, Viewport } from "puppeteer-core";
 import { ENV } from "../Env";
 import chromium from "@sparticuz/chromium";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import puppeteer from "puppeteer-extra";
 
 export class PuppeteerTranslationService implements ITranslationService {
   private browser: Browser;
@@ -9,8 +11,10 @@ export class PuppeteerTranslationService implements ITranslationService {
   private viewport: Viewport = { width: 1366, height: 1024 };
 
   async init(): Promise<void> {
+    puppeteer.use(StealthPlugin());
+
     this.browser = await puppeteer.launch({
-      args: [...chromium.args, "--disable-gpu", "--disable-extensions", "--no-sandbox", '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'],
+      args: [...chromium.args, "--disable-gpu", "--disable-extensions", "--no-sandbox"],
       executablePath: ENV.chromePath || (await chromium.executablePath()),
       headless: true,
       ignoreHTTPSErrors: true,
