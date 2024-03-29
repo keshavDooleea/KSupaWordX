@@ -10,7 +10,7 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async init(): Promise<void> {
     this.browser = await puppeteer.launch({
-      args: [...chromium.args, "--disable-gpu", "--disable-extensions", "--no-sandbox"],
+      args: [...chromium.args, "--disable-gpu", "--disable-extensions", "--no-sandbox", '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'],
       executablePath: ENV.chromePath || (await chromium.executablePath()),
       headless: true,
       ignoreHTTPSErrors: true,
