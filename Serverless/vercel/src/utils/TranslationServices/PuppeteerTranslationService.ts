@@ -25,7 +25,7 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async goTo(url: string): Promise<void> {
     console.log("Chromium:", await this.browser.version());
-    await this.page.goto(url, { waitUntil: "load" });
+    await this.page.goto(url, { waitUntil: "networkidle0" });
 
     console.log("Page Title:", await this.page.title());
   }
