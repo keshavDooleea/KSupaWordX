@@ -1,4 +1,4 @@
-import { NowResponse } from "@now/node";
+import { VercelResponse } from "@vercel/node";
 import { ISupaRequest } from "../interfaces";
 import { ENV } from "./Env";
 
@@ -8,7 +8,7 @@ export class RequestHandler {
     return type === ENV.supabaseType && table === ENV.supabaseTable;
   }
 
-  static sendResponse(res: NowResponse, message: string): void {
+  static sendResponse(res: VercelResponse, message: string): void {
     console.log(message);
     res.send(message);
   }

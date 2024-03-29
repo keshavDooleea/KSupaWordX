@@ -1,14 +1,16 @@
-import { NowRequest, NowResponse } from "@now/node";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 import { ISupaRequest } from "../../src/interfaces";
 import { RequestHandler, WordTranslate, PuppeteerTranslationService, SupabaseHandler } from "../../src/utils";
 
-const handler = async (req: NowRequest, res: NowResponse) => {
+const handler = async (req: VercelRequest, res: VercelResponse) => {
   const supaRequest = (await req.body) as ISupaRequest;
 
   try {
     if (!RequestHandler.isRequestValid(supaRequest)) {
       return RequestHandler.sendResponse(res, "Invalid Response");
     }
+
+    console.log("in");
 
     const supabase = new SupabaseHandler(supaRequest.record);
 

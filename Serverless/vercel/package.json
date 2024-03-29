@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vercel dev"
   },
   "author": "",
   "license": "ISC",
@@ -12,9 +12,9 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@now/node": "^1.8.5",
-    "@sparticuz/chromium": "^123.0.0",
     "@supabase/supabase-js": "^2.40.0",
-    "puppeteer-core": "^22.6.1"
+    "@vercel/node": "^3.0.25",
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^10.2.0"
   }
 }
