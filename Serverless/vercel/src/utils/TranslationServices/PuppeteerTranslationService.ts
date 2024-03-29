@@ -21,8 +21,8 @@ import "puppeteer-extra-plugin-stealth/evasions/sourceurl";
 import "puppeteer-extra-plugin-stealth/evasions/user-agent-override";
 import "puppeteer-extra-plugin-stealth/evasions/webgl.vendor";
 import "puppeteer-extra-plugin-stealth/evasions/window.outerdimensions";
-import "puppeteer-extra-plugin-user-data-dir";
 import "puppeteer-extra-plugin-user-preferences";
+import "puppeteer-extra-plugin-user-data-dir";
 
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
@@ -50,7 +50,7 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async goTo(url: string): Promise<void> {
     console.log("Chromium:", await this.browser.version());
-    await this.page.goto(url, { waitUntil: "networkidle0" });
+    await this.page.goto(url);
 
     console.log("Page Title:", await this.page.title());
   }
