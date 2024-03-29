@@ -5,11 +5,11 @@ import chromium from "@sparticuz/chromium";
 export class PuppeteerTranslationService implements ITranslationService {
   private browser: Browser;
   private page: Page;
-  private viewport: Viewport = { width: 1080, height: 1024 };
+  private viewport: Viewport = { width: 1366, height: 1024 };
 
   async init(): Promise<void> {
     this.browser = await puppeteer.launch({
-      args: chromium.args,
+      args: [...chromium.args, "--start-maximized"],
       executablePath: await chromium.executablePath(),
       headless: true,
       ignoreHTTPSErrors: true,
@@ -24,11 +24,13 @@ export class PuppeteerTranslationService implements ITranslationService {
 
   async goTo(url: string, word?: string): Promise<void> {
     await this.page.goto(url, { waitUntil: "domcontentloaded" });
-    // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
+    await this.page.waitForSelector("#source");
+    console.log("WAIT DONE");
   }
 
   async setViewport(): Promise<void> {
     await this.page.setViewport(this.viewport);
+    await this.page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36");
   }
 
   async grabTranslations(htmlSelectors: string[]): Promise<string[]> {
@@ -44,7 +46,13 @@ export class PuppeteerTranslationService implements ITranslationService {
         return document.querySelectorAll(".ryNqvb")[0].textContent;
       });
 
+      const translatedResult2 = await this.page.evaluate(() => {
+        console.log("BBB", document.querySelectorAll(".result-shield-container"));
+        return document.querySelectorAll(".result-shield-container")[0].textContent;
+      });
+
       console.log("TT", translatedResult);
+      console.log("TT2", translatedResult2);
 
       const words: string[] = await this.page.$$eval(selector, (elements) => {
         console.log("ele", elements);
