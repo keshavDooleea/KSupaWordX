@@ -6,6 +6,9 @@
   "scripts": {
     "start": "vercel dev"
   },
+  "engines": {
+    "node": "^18"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
