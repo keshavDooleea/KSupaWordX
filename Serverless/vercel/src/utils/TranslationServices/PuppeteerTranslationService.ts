@@ -29,7 +29,7 @@ export class PuppeteerTranslationService implements ITranslationService {
     // console.log("WAIT DONE 2");
 
     console.log("12");
-    await this.page.goto("https://developer.chrome.com/");
+    await this.page.goto("https://developer.chrome.com/", { waitUntil: "networkidle0" });
     console.log("11");
 
     // Set screen size
