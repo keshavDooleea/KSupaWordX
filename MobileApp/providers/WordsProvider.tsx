@@ -27,8 +27,24 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
 
     setIsFetchingWords(true);
     const words = await SupabaseDB.getUserWords(user?.id, currentLang);
-    setUserWords(words ?? []);
+    setWords(words ?? []);
     setIsFetchingWords(false);
+  };
+
+  const setWords = (words: IUserWord[]): void => {
+    setUserWords(words.sort((a, b) => a.word.word.localeCompare(b.word.word)));
+  };
+
+  const handleUserWordTableChange = async (newWord: IUserWord): Promise<void> => {
+    if (!newWord) return;
+    if (newWord.user_id !== user?.id) return;
+
+    const word = await SupabaseDB.getWordById(newWord.word_id);
+
+    if (word && word.lang === currentLang) {
+      newWord.word = word;
+      setWords([...userWords, newWord]);
+    }
   };
 
   useEffect(() => {
@@ -44,17 +60,13 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const realTimeSubscription = supabase
       .channel("any")
-      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, (payload) => {
-        const changes = payload.new as IUserWord;
-        if (!changes) return;
-        if (changes.user_id === user?.id) fetchWords();
-      })
+      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, async (payload) => await handleUserWordTableChange(payload.new as IUserWord))
       .subscribe();
 
     return () => {
       realTimeSubscription.unsubscribe();
     };
-  });
+  }, [user]);
 
   return (
     <WordsContext.Provider

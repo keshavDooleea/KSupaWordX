@@ -31,13 +31,19 @@ export class SupabaseDB {
     return data ?? null;
   }
 
-  static async createWord(lang: ELanguageType, word: string): Promise<IWord | null> {
+  static async getWordById(wordId: string): Promise<IWord | null> {
+    const { data } = await supabase.from(SupabaseTypes.WORDS).select().eq("id", wordId).limit(1).single();
+    return data ?? null;
+  }
+
+  static async createWord(lang: ELanguageType, newWord: string): Promise<IWord | null> {
+    const word = newWord.toLowerCase().trim();
     const { data } = await supabase.from(SupabaseTypes.WORDS).insert({ word, lang }).select().returns<IWord[]>();
     return data ? data[0] : null;
   }
 
   static async getOrCreateWordId(lang: ELanguageType, word: string): Promise<string | null> {
-    const newWord = word.toLowerCase();
+    const newWord = word.toLowerCase().trim();
 
     const existingWord: IWord | null = await this.getWord(lang, newWord);
     if (existingWord) return existingWord.id;
@@ -54,7 +60,8 @@ export class SupabaseDB {
       return false;
     }
 
-    const { data, error } = await supabase.from(SupabaseTypes.USER_WORDS).insert({ word_id: wordId, user_id: userId, custom_word_url: customUrl }).select().returns<IUserWord[]>();
+    const custom_word_url = customUrl.trim();
+    const { data, error } = await supabase.from(SupabaseTypes.USER_WORDS).insert({ word_id: wordId, user_id: userId, custom_word_url }).select().returns<IUserWord[]>();
 
     if (error && error.code === "23505") {
       SupabaseDB.showError(`Word already exists`);
