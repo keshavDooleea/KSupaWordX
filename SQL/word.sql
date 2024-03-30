@@ -9,8 +9,7 @@ create type language as enum (
 CREATE TABLE words (
     id uuid not null primary key default uuid_generate_v4(),
     word VARCHAR(50) not null,
-    lang language not null,
-    translations text array default {}
+    lang language not null
 );
 
 alter table words
