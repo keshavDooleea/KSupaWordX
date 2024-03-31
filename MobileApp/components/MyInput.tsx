@@ -28,10 +28,7 @@ export const MyInput = ({ placeholder, type, onChange, initialText, inputContain
     onKeyboardDismiss();
   };
 
-  const onKeyboardDismiss = () => {
-    Keyboard.dismiss();
-    inputElement.current?.blur();
-  };
+  const onKeyboardDismiss = () => inputElement.current?.blur();
 
   const onClearText = () => {
     if (!currentValue) return;
