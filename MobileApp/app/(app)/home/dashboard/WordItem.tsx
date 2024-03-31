@@ -18,7 +18,6 @@ export const WordItem = ({ word }: IWordItemProps) => {
         <MyText text={word.word.word} style={styles.headerTitle} />
         <MyText text={DateUtil.getFormattedDate(word.created_at)} />
       </View>
-      <MyText style={styles.headerTranslation} text={"Heux"} />
 
       {word.custom_word_url && <MyText style={styles.customUrl} text="Custom" />}
     </TouchableOpacity>
@@ -29,6 +28,8 @@ const styles = StyleSheet.create({
   container: {
     marginTop: CONSTANTS.styles.margin.m,
     padding: CONSTANTS.styles.margin.m,
+    paddingTop: CONSTANTS.styles.margin.l,
+    paddingBottom: CONSTANTS.styles.margin.l,
     backgroundColor: colors.background.secondary,
     borderRadius: CONSTANTS.styles.radius,
   },

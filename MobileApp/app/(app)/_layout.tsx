@@ -14,8 +14,8 @@ export default function StackLayout() {
         options={{
           headerTitle: () => <HeaderSearchBar />,
           headerTitleAlign: "center",
-          headerLeft: () => <IconButton iconName="add-to-list" onPressed={openCreateBS} />,
-          headerRight: () => <IconButton iconName="log-out" onPressed={signOut} />,
+          headerLeft: () => <IconButton iconName="log-out" onPressed={signOut} />,
+          headerRight: () => <IconButton iconName="add-to-list" onPressed={openCreateBS} />,
         }}
       ></Stack.Screen>
     </Stack>
