@@ -11,4 +11,5 @@ export const colors = {
     subtitle: "rgba(0, 0, 0, 0.7)",
     buttonColor: "#fff",
   },
+  error: "#ed5269",
 };
