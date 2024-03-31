@@ -11,15 +11,32 @@ interface IMyButtonProps {
   isLoading?: boolean;
   isDisabled?: boolean;
   useSegmentedWidth?: boolean;
+  styles?: StyleProp<unknown>;
+  kind?: "primary" | "secondary" | "delete";
 }
 
-export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisabled = false, onPressed, titleNormal, titleLoading }: IMyButtonProps) => {
-  const styles: StyleProp<ViewStyle> = [globalStyles.button];
-  const { buttonColor, title, subtitle } = colors.text;
+export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisabled = false, onPressed, titleNormal, titleLoading, styles, kind = "primary" }: IMyButtonProps) => {
+  const btnStyles: StyleProp<ViewStyle> = [];
+  let { buttonColor, title, subtitle } = colors.text;
+
+  if (styles) btnStyles.push(styles);
+
+  switch (kind) {
+    case "primary":
+      btnStyles.push(globalStyles.button);
+      break;
+    case "secondary":
+      btnStyles.push({ backgroundColor: colors.background.secondary });
+      buttonColor = colors.text.subtitle;
+      break;
+    case "delete":
+      btnStyles.push({ backgroundColor: colors.error });
+      break;
+  }
 
   if (useSegmentedWidth) {
     const { segmentedControlWidth } = useDimensions();
-    styles.push({ width: segmentedControlWidth });
+    btnStyles.push({ width: segmentedControlWidth });
   }
 
   const Title = () => {
@@ -33,5 +50,5 @@ export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisab
     );
   };
 
-  return <Button buttonStyle={styles} title={<Title />} disabled={isLoading || isDisabled} onPress={onPressed} />;
+  return <Button buttonStyle={btnStyles} title={<Title />} disabled={isLoading || isDisabled} onPress={onPressed} />;
 };

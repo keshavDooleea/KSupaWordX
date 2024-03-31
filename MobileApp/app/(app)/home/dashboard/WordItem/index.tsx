@@ -9,13 +9,15 @@ import { WordItemRightAction } from "./WordItemRightAction";
 
 interface IWordItemProps {
   word: IUserWord;
+  swipeRefs: Map<string, Swipeable | null>;
+  closeRow: (wordId: string) => void;
 }
 
-export const WordItem = ({ word }: IWordItemProps) => {
+export const WordItem = ({ word, swipeRefs, closeRow }: IWordItemProps) => {
   const { openWebViewBS } = useBottomSheet();
 
   return (
-    <Swipeable renderRightActions={() => <WordItemRightAction word={word} />}>
+    <Swipeable ref={(ref) => swipeRefs.set(word.word_id, ref)} onSwipeableWillOpen={() => closeRow(word.word_id)} renderRightActions={() => <WordItemRightAction word={word} />}>
       <TouchableOpacity onPress={() => openWebViewBS(word)} style={styles.container}>
         <View style={styles.header}>
           <MyText text={word.word.word} style={styles.headerTitle} />

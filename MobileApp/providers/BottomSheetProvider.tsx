@@ -10,6 +10,10 @@ interface IBottomSheetContext {
   openWebViewBS: (word: IUserWord) => void;
   closeWebViewBS: () => void;
 
+  deleteUserWord: IUserWord | null;
+  openDeleteUserWordBS: (userWord: IUserWord) => void;
+  closeDeleteUserWordBS: () => void;
+
   closeAllBS: () => void;
 }
 
@@ -18,9 +22,13 @@ export const BottomSheetContext = createContext<IBottomSheetContext>({} as IBott
 export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
   const [shouldOpenCreateBS, setShouldOpenCreateBS] = useState<boolean>(false);
   const [webViewWord, setWebViewWord] = useState<IUserWord | null>(null);
+  const [deleteUserWord, setDeleteUserWord] = useState<IUserWord | null>(null);
 
   const openCreateBS = () => setShouldOpenCreateBS(true);
   const closeCreateBS = () => setShouldOpenCreateBS(false);
+
+  const openDeleteUserWordBS = (word: IUserWord) => setDeleteUserWord(word);
+  const closeDeleteUserWordBS = () => setDeleteUserWord(null);
 
   const openWebViewBS = (word: IUserWord) => setWebViewWord(word);
   const closeWebViewBS = () => setWebViewWord(null);
@@ -28,6 +36,7 @@ export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
   const closeAllBS = () => {
     closeCreateBS();
     closeWebViewBS();
+    closeDeleteUserWordBS();
   };
 
   return (
@@ -39,6 +48,9 @@ export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
         webViewWord,
         openWebViewBS,
         closeWebViewBS,
+        deleteUserWord,
+        openDeleteUserWordBS,
+        closeDeleteUserWordBS,
         closeAllBS,
       }}
     >

@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { useAuth, useBottomSheet } from "../../hooks";
-import { CreateBottomSheet, HeaderSearchBar, IconButton, WebViewBottomSheet } from "../../components";
+import { CreateBottomSheet, HeaderSearchBar, IconButton, WebViewBottomSheet, DeleteBottomSheet } from "../../components";
 import { View } from "react-native";
 
 export default function StackLayout() {
@@ -25,6 +25,7 @@ export default function StackLayout() {
 
       <CreateBottomSheet />
       <WebViewBottomSheet />
+      <DeleteBottomSheet />
     </View>
   );
 }

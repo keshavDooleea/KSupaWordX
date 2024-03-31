@@ -29,7 +29,6 @@ export const SupabaseProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     getDictionaryUrls();
-    //get user words
   }, []);
 
   return (
