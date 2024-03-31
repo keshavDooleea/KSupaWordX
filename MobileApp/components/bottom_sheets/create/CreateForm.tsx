@@ -60,14 +60,14 @@ export const CreateForm = () => {
         <View>
           <Title text="Enter a Word to save *" />
           <SegmentedControlWidth>
-            <MyInput onChange={onTextChanged} text={wordText} placeholder="Word.." type="default" />
+            <MyInput onChange={onTextChanged} initialText={wordText} placeholder="Word.." type="default" />
           </SegmentedControlWidth>
         </View>
 
         <View>
           <Title text="Enter a custom Dictionary URL (optional)" />
           <SegmentedControlWidth>
-            <MyInput onChange={onCustomUrlChanged} text={wordText} placeholder="Custom URL.." type="web-search" />
+            <MyInput onChange={onCustomUrlChanged} initialText={customUrl} placeholder="Custom URL.." type="web-search" />
           </SegmentedControlWidth>
         </View>
 
