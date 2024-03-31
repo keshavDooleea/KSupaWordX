@@ -7,7 +7,7 @@ import { WordItem } from "./WordItem";
 
 export const WordsList = () => {
   const { height } = useDimensions();
-  const { fetchWords, isFetchingWords, userWords } = useWords();
+  const { fetchWords, isFetchingWords, userWordsDisplayed } = useWords();
 
   if (isFetchingWords) {
     return (
@@ -20,7 +20,7 @@ export const WordsList = () => {
   return (
     <View style={styles.flashContainer}>
       <FlashList
-        data={userWords}
+        data={userWordsDisplayed}
         refreshing={isFetchingWords}
         onRefresh={fetchWords}
         ListEmptyComponent={

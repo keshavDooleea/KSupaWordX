@@ -1,15 +1,17 @@
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { SupabaseDB, SupabaseTypes, supabase } from "../utils";
-import { ELanguageType, IUserWord } from "../interfaces";
+import { DispatchState, ELanguageType, IUserWord } from "../interfaces";
 import { useAuth } from "../hooks/useAuth";
 import { useSupabase } from "../hooks/useSupabase";
 
 interface IWordsContext {
   isFetchingWords: boolean;
-  userWords: IUserWord[];
+  userWordsDisplayed: IUserWord[];
   currentLang: ELanguageType;
+  currentSearch: string;
   fetchWords: () => void;
   setCurrentLang: (lang: ELanguageType) => void;
+  setCurrentSearch: DispatchState<string>;
 }
 
 export const WordsContext = createContext<IWordsContext>({} as IWordsContext);
@@ -18,24 +20,26 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
   const { user } = useAuth();
   const { languages } = useSupabase();
 
-  const [userWords, setUserWords] = useState<IUserWord[]>([]);
+  const [userDBWords, setUserDBWords] = useState<IUserWord[]>([]);
+  const [userWordsDisplayed, setUserWordsDisplayed] = useState<IUserWord[]>([]);
   const [isFetchingWords, setIsFetchingWords] = useState<boolean>(true);
   const [currentLang, setCurrentLang] = useState<ELanguageType>(ELanguageType.en);
+  const [currentSearch, setCurrentSearch] = useState<string>("");
 
   const fetchWords = async () => {
     if (!user?.id || !currentLang) return;
 
     setIsFetchingWords(true);
-    const words = await SupabaseDB.getUserWords(user?.id, currentLang);
-    setWords(words ?? []);
+    const words = (await SupabaseDB.getUserWords(user?.id, currentLang)) ?? [];
+    const sortedWords = sortWordsAlphabetically(words);
+    setUserDBWords(sortedWords);
+    setUserWordsDisplayed(sortedWords);
     setIsFetchingWords(false);
   };
 
-  const setWords = (words: IUserWord[]): void => {
-    setUserWords(words.sort((a, b) => a.word.word.localeCompare(b.word.word)));
-  };
+  const sortWordsAlphabetically = (array: IUserWord[]): IUserWord[] => array.sort((a, b) => a.word.word.localeCompare(b.word.word));
 
-  const handleUserWordTableChange = async (newWord: IUserWord): Promise<void> => {
+  const onUserWordTableChange = async (newWord: IUserWord): Promise<void> => {
     if (!newWord) return;
     if (newWord.user_id !== user?.id) return;
 
@@ -43,8 +47,18 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
 
     if (word && word.lang === currentLang) {
       newWord.word = word;
-      setWords([...userWords, newWord]);
+      setUserDBWords((oldWords) => sortWordsAlphabetically([...oldWords, newWord]));
     }
+  };
+
+  const onSearchChange = (search: string, userWords: IUserWord[]): void => {
+    if (!search) {
+      setUserWordsDisplayed(userWords);
+      return;
+    }
+
+    const words = userWords.filter((word) => word.word.word.includes(search));
+    setUserWordsDisplayed(words);
   };
 
   useEffect(() => {
@@ -57,10 +71,12 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
     if (currentLang) fetchWords();
   }, [currentLang, user]);
 
+  useEffect(() => onSearchChange(currentSearch, userDBWords), [currentSearch, userDBWords]);
+
   useEffect(() => {
     const realTimeSubscription = supabase
       .channel("any")
-      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, async (payload) => await handleUserWordTableChange(payload.new as IUserWord))
+      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, async (payload) => await onUserWordTableChange(payload.new as IUserWord))
       .subscribe();
 
     return () => {
@@ -71,11 +87,13 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
   return (
     <WordsContext.Provider
       value={{
-        userWords,
+        userWordsDisplayed,
         isFetchingWords,
         fetchWords,
         currentLang,
         setCurrentLang,
+        currentSearch,
+        setCurrentSearch,
       }}
     >
       {children}
