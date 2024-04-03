@@ -3,6 +3,7 @@ import { SupabaseDB, SupabaseTypes, supabase } from "../utils";
 import { DispatchState, ELanguageType, IUserWord } from "../interfaces";
 import { useAuth } from "../hooks/useAuth";
 import { useSupabase } from "../hooks/useSupabase";
+import { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
 interface IWordsContext {
   isFetchingWords: boolean;
@@ -39,7 +40,18 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
 
   const sortWordsAlphabetically = (array: IUserWord[]): IUserWord[] => array.sort((a, b) => a.word.word.localeCompare(b.word.word));
 
-  const onUserWordTableChange = async (newWord: IUserWord): Promise<void> => {
+  const onUserWordTableChange = async (payload: RealtimePostgresChangesPayload<IUserWord>): Promise<void> => {
+    switch (payload.eventType) {
+      case "INSERT":
+        await onUserWordTableInsert(payload.new);
+        break;
+      case "DELETE":
+        onUserWordTableDelete(payload.old.user_id, payload.old.word_id);
+        break;
+    }
+  };
+
+  const onUserWordTableInsert = async (newWord: IUserWord): Promise<void> => {
     if (!newWord) return;
     if (newWord.user_id !== user?.id) return;
 
@@ -49,6 +61,10 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
       newWord.word = word;
       setUserDBWords((oldWords) => sortWordsAlphabetically([...oldWords, newWord]));
     }
+  };
+
+  const onUserWordTableDelete = (userId: string | undefined, wordId: string | undefined) => {
+    setUserDBWords((oldWords) => oldWords.filter((word) => !(word.user_id === userId && word.word_id === wordId)));
   };
 
   const onSearchChange = (search: string, userWords: IUserWord[]): void => {
@@ -76,7 +92,7 @@ export const WordsProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const realTimeSubscription = supabase
       .channel("any")
-      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, async (payload) => await onUserWordTableChange(payload.new as IUserWord))
+      .on<IUserWord>("postgres_changes", { event: "*", schema: "public", table: SupabaseTypes.USER_WORDS }, async (payload) => await onUserWordTableChange(payload))
       .subscribe();
 
     return () => {

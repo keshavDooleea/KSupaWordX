@@ -2,26 +2,37 @@ import { StyleSheet, View } from "react-native";
 import BaseBottomSheet from "./base";
 import { useBottomSheet } from "../../hooks";
 import { MyText } from "../MyText";
-import { CONSTANTS, Language } from "../../utils";
+import { CONSTANTS, Language, SupabaseDB } from "../../utils";
 import { MyButton } from "../MyButton";
+import { useState } from "react";
 
 export const DeleteBottomSheet = () => {
   const { deleteUserWord, closeDeleteUserWordBS } = useBottomSheet();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  const onDeleteWordPressed = async () => {
+    if (!deleteUserWord) return;
+
+    setIsDeleting(true);
+    const isSuccess = await SupabaseDB.deleteUserWord(deleteUserWord);
+    if (isSuccess) closeDeleteUserWordBS();
+    setIsDeleting(false);
+  };
 
   return (
     <BaseBottomSheet shouldOpen={!!deleteUserWord}>
-      <MyText text="Remove word from list?" />
       {deleteUserWord && (
         <>
+          <MyText text="Remove word from list?" />
           <MyText text={deleteUserWord.word.word} style={styles.title} />
           <MyText text={`(${Language.getName(deleteUserWord.word.lang)})`} style={styles.langTitle} />
+
+          <View style={styles.btnsContainer}>
+            <MyButton kind="secondary" onPressed={closeDeleteUserWordBS} titleLoading="" titleNormal="Cancel" styles={styles.btn} />
+            <MyButton kind="delete" onPressed={onDeleteWordPressed} titleLoading="Deleting" titleNormal="Delete" styles={styles.btn} isLoading={isDeleting} />
+          </View>
         </>
       )}
-
-      <View style={styles.btnsContainer}>
-        <MyButton kind="secondary" onPressed={closeDeleteUserWordBS} titleLoading="" titleNormal="Cancel" styles={styles.btn} />
-        <MyButton kind="delete" onPressed={closeDeleteUserWordBS} titleLoading="" titleNormal="Delete" styles={styles.btn} />
-      </View>
     </BaseBottomSheet>
   );
 };

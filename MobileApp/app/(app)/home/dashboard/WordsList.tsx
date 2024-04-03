@@ -4,13 +4,10 @@ import { CONSTANTS, colors } from "../../../../utils";
 import { useDimensions, useWords } from "../../../../hooks";
 import { MyText } from "../../../../components";
 import { WordItem } from "./WordItem";
-import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export const WordsList = () => {
   const { height } = useDimensions();
-  const { fetchWords, isFetchingWords, userWordsDisplayed } = useWords();
-  const swipeRefs = new Map<string, Swipeable | null>();
-  let previousRow: Swipeable | null = null;
+  const { fetchWords, isFetchingWords, userWordsDisplayed, currentSearch } = useWords();
 
   if (isFetchingWords) {
     return (
@@ -20,13 +17,6 @@ export const WordsList = () => {
     );
   }
 
-  const closeRow = (wordId: string) => {
-    if (previousRow && previousRow !== swipeRefs.get(wordId)) {
-      previousRow.close();
-    }
-    previousRow = swipeRefs.get(wordId)!;
-  };
-
   return (
     <View style={styles.flashContainer}>
       <FlashList
@@ -35,10 +25,23 @@ export const WordsList = () => {
         onRefresh={fetchWords}
         ListEmptyComponent={
           <View style={[{ height: height - 90 }, styles.spinnerContainer]}>
-            <MyText text="No words saved yet.." />
+            <MyText text={userWordsDisplayed.length === 0 && currentSearch ? `No words with search '${currentSearch}' found..` : "No words saved yet.."} />
           </View>
         }
-        renderItem={({ item }) => <WordItem word={item} swipeRefs={swipeRefs} closeRow={closeRow} />}
+        renderItem={({ item, index }) => {
+          const alphabet = item.word.word[0];
+
+          if (userWordsDisplayed[index - 1] && userWordsDisplayed[index - 1].word.word[0] === alphabet) {
+            return <WordItem word={item} />;
+          }
+
+          return (
+            <>
+              <MyText text={alphabet.toUpperCase()} style={styles.alphabet} />
+              <WordItem word={item} />
+            </>
+          );
+        }}
         estimatedItemSize={200}
       />
     </View>
@@ -54,5 +57,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  alphabet: {
+    marginTop: CONSTANTS.styles.margin.l,
+    fontSize: 12,
+    color: colors.text.title,
   },
 });

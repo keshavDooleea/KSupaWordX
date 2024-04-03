@@ -91,4 +91,14 @@ export class SupabaseDB {
     const { data, error } = await supabase.from(SupabaseTypes.USER_WORDS).select(`user_id, custom_word_url, word_id, created_at, word:${SupabaseTypes.WORDS}!inner (id, word, lang)`).eq("user_id", userId).eq(`${SupabaseTypes.WORDS}.lang`, lang).returns<IUserWord[]>();
     return error || !data ? null : data;
   }
+
+  static async deleteUserWord(word: IUserWord): Promise<boolean> {
+    const { error } = await supabase.from(SupabaseTypes.USER_WORDS).delete().eq("user_id", word.user_id).eq("word_id", word.word.id);
+
+    if (error) {
+      SupabaseDB.showError(`"An error occurred while deleting the word: ${word.word.word}`);
+    }
+
+    return !!!error;
+  }
 }

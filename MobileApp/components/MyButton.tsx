@@ -21,6 +21,10 @@ export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisab
 
   if (styles) btnStyles.push(styles);
 
+  if (isLoading || isDisabled) {
+    btnStyles.push({ pointerEvents: "none" });
+  }
+
   switch (kind) {
     case "primary":
       btnStyles.push(globalStyles.button);
@@ -45,10 +49,10 @@ export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisab
     return (
       <View style={{ flexDirection: "row", gap: 20 }}>
         <ActivityIndicator color={title} />
-        <MyText text={titleLoading} style={{ color: subtitle }} />
+        <MyText text={titleLoading} style={{ color: kind === "delete" ? buttonColor : subtitle }} />
       </View>
     );
   };
 
-  return <Button buttonStyle={btnStyles} title={<Title />} disabled={isLoading || isDisabled} onPress={onPressed} />;
+  return <Button buttonStyle={btnStyles} title={<Title />} onPress={onPressed} />;
 };

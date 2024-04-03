@@ -3,7 +3,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Animated, StyleSheet, TouchableOpacity } from "react-native";
 import { CONSTANTS, colors } from "../../../../../utils";
 import { IUserWord } from "../../../../../interfaces";
-import { useBottomSheet } from "../../../../../hooks";
+import { useBottomSheet, useSwipeable } from "../../../../../hooks";
 
 interface IWordItemRightAction {
   word: IUserWord;
@@ -11,7 +11,12 @@ interface IWordItemRightAction {
 
 export const WordItemRightAction = memo(({ word }: IWordItemRightAction) => {
   const { openDeleteUserWordBS } = useBottomSheet();
-  const onPress = useCallback(() => openDeleteUserWordBS(word), [word]);
+  const { closeCurrentRow } = useSwipeable();
+
+  const onPress = useCallback(() => {
+    closeCurrentRow(word.word.id);
+    openDeleteUserWordBS(word);
+  }, [word]);
 
   return (
     <Animated.View style={[styles.deleteIconContainer]}>
