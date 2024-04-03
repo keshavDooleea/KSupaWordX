@@ -1,8 +1,8 @@
 import { View } from "react-native";
-import { LanguageSegmentedControl } from "../../../../components";
-import { useSupabase, useWords } from "../../../../hooks";
+import { LanguageSegmentedControl } from "../../../../../components";
+import { useSupabase, useWords } from "../../../../../hooks";
 import { useCallback } from "react";
-import { ELanguageType } from "../../../../interfaces";
+import { ELanguageType } from "../../../../../interfaces";
 import { WordsList } from "./WordsList";
 
 export const HomeDashboard = () => {

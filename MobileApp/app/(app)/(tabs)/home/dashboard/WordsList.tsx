@@ -1,8 +1,8 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import { CONSTANTS, colors } from "../../../../utils";
-import { useDimensions, useWords } from "../../../../hooks";
-import { MyText } from "../../../../components";
+import { CONSTANTS, colors } from "../../../../../utils";
+import { useDimensions, useWords } from "../../../../../hooks";
+import { MyText } from "../../../../../components";
 import { WordItem } from "./WordItem";
 
 export const WordsList = () => {
@@ -30,15 +30,16 @@ export const WordsList = () => {
         }
         renderItem={({ item, index }) => {
           const alphabet = item.word.word[0];
+          const isLastWord = index === userWordsDisplayed.length - 1;
 
           if (userWordsDisplayed[index - 1] && userWordsDisplayed[index - 1].word.word[0] === alphabet) {
-            return <WordItem word={item} />;
+            return <WordItem word={item} isLastWord={isLastWord} />;
           }
 
           return (
             <>
               <MyText text={alphabet.toUpperCase()} style={styles.alphabet} />
-              <WordItem word={item} />
+              <WordItem word={item} isLastWord={isLastWord} />
             </>
           );
         }}

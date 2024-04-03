@@ -40,4 +40,12 @@ export const globalStyles = StyleSheet.create({
   text: {
     fontFamily: "IBM",
   },
+  tabLayout: {
+    display: "flex",
+    flexGrow: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: colors.background.main,
+    paddingTop: CONSTANTS.styles.margin.m,
+  },
 });

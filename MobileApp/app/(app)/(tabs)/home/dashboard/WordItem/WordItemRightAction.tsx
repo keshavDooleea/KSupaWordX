@@ -1,9 +1,9 @@
 import { memo, useCallback } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { Animated, StyleSheet, TouchableOpacity } from "react-native";
-import { CONSTANTS, colors } from "../../../../../utils";
-import { IUserWord } from "../../../../../interfaces";
-import { useBottomSheet, useSwipeable } from "../../../../../hooks";
+import { CONSTANTS, colors } from "../../../../../../utils";
+import { IUserWord } from "../../../../../../interfaces";
+import { useBottomSheet, useSwipeable } from "../../../../../../hooks";
 
 interface IWordItemRightAction {
   word: IUserWord;

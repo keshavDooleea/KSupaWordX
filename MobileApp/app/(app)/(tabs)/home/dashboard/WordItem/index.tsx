@@ -1,17 +1,18 @@
 import { StyleSheet, View } from "react-native";
-import { IUserWord } from "../../../../../interfaces";
-import { MyText } from "../../../../../components";
-import { CONSTANTS, DateUtil, colors } from "../../../../../utils";
+import { IUserWord } from "../../../../../../interfaces";
+import { MyText } from "../../../../../../components";
+import { CONSTANTS, DateUtil, colors } from "../../../../../../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useBottomSheet, useSwipeable } from "../../../../../hooks";
+import { useBottomSheet, useSwipeable } from "../../../../../../hooks";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { WordItemRightAction } from "./WordItemRightAction";
 
 interface IWordItemProps {
   word: IUserWord;
+  isLastWord: boolean;
 }
 
-export const WordItem = ({ word }: IWordItemProps) => {
+export const WordItem = ({ word, isLastWord }: IWordItemProps) => {
   const { openWebViewBS } = useBottomSheet();
   const { setRef, closePreviousRow } = useSwipeable();
 
@@ -22,7 +23,7 @@ export const WordItem = ({ word }: IWordItemProps) => {
 
   return (
     <Swipeable ref={(ref) => setRef(ref, word.word_id)} onSwipeableWillOpen={() => closePreviousRow(word.word_id)} renderRightActions={() => <WordItemRightAction word={word} />}>
-      <TouchableOpacity onPress={onRowPressed} style={styles.container}>
+      <TouchableOpacity onPress={onRowPressed} style={[styles.container, isLastWord && { marginBottom: CONSTANTS.styles.margin.m }]}>
         <View style={styles.header}>
           <MyText text={word.word.word} style={styles.headerTitle} />
           <MyText text={DateUtil.getFormattedDate(word.created_at)} />

@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { useAuth, useBottomSheet } from "../../hooks";
-import { CreateBottomSheet, HeaderSearchBar, IconButton, WebViewBottomSheet, DeleteBottomSheet } from "../../components";
+import { CreateBottomSheet, WebViewBottomSheet, DeleteBottomSheet } from "../../components";
 import { View } from "react-native";
 
 export default function StackLayout() {
@@ -12,13 +12,11 @@ export default function StackLayout() {
     <View style={{ flex: 1 }}>
       <Stack>
         <Stack.Screen
-          name="home/index"
+          name="(tabs)"
           options={{
-            gestureEnabled: false,
-            headerTitle: () => <HeaderSearchBar />,
-            headerTitleAlign: "center",
-            headerLeft: () => <IconButton iconName="log-out" onPressed={signOut} />,
-            headerRight: () => <IconButton iconName="add-to-list" onPressed={openCreateBS} />,
+            headerShown: false,
+            // headerLeft: () => <IconButton iconName="log-out" onPressed={signOut} />,
+            // headerRight: () => <IconButton iconName="add-to-list" onPressed={openCreateBS} />,
           }}
         ></Stack.Screen>
       </Stack>
