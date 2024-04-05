@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { colors, globalStyles } from "../../../utils";
-import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 interface IIconButtonProp {
   onPressed: () => void;
@@ -11,7 +11,7 @@ interface IIconButtonProp {
 export default function IconButton({ onPressed, iconName }: IIconButtonProp) {
   return (
     <TouchableOpacity onPress={onPressed} style={styles.container}>
-      <Entypo name={iconName as any} size={20} color={colors.text.subtitle} />
+      <Ionicons name={iconName as any} size={20} color={colors.text.subtitle} />
     </TouchableOpacity>
   );
 }

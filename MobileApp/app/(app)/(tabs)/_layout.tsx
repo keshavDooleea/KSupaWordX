@@ -1,9 +1,13 @@
 import { Tabs } from "expo-router";
-import { HeaderSearchBar, MyText } from "../../../components";
+import { HeaderSearchBar, IconButton, MyText } from "../../../components";
 import { AntDesign } from "@expo/vector-icons";
-import { colors } from "../../../utils";
+import { CONSTANTS, colors, globalStyles } from "../../../utils";
+import { useBottomSheet } from "../../../hooks";
+import { StyleSheet } from "react-native";
 
 export default () => {
+  const { openCreateBS } = useBottomSheet();
+
   const commonTabOptions: unknown = {
     headerTitleAlign: "center",
     headerStyle: {
@@ -24,7 +28,7 @@ export default () => {
     ],
   };
 
-  const getLabel = (isFocused: boolean, text: string) => <MyText text={text} style={{ color: isFocused ? colors.background.accentPrimary : colors.text.subtitle, fontSize: 11 }} />;
+  const getLabel = (isFocused: boolean, text: string) => <MyText text={text} style={{ color: isFocused ? colors.background.accentPrimary : colors.text.subtitle, fontSize: 12 }} />;
   const getIcon = (isFocused: boolean, iconName: string) => <AntDesign name={iconName as any} size={20} color={isFocused ? colors.background.accentPrimary : colors.text.subtitle} />;
 
   return (
@@ -33,12 +37,29 @@ export default () => {
         name="home/index"
         options={{
           ...commonTabOptions!,
-          headerTitle: () => <HeaderSearchBar />,
+          headerTitle: "",
+          headerLeftContainerStyle: styles.headerLeft,
+          headerRightContainerStyle: styles.headerRight,
+          headerLeftLabelVisible: true,
+          headerLeft: () => <HeaderSearchBar />,
+          headerRight: () => <IconButton iconName="create-outline" onPressed={openCreateBS} />,
           tabBarLabel: ({ focused }) => getLabel(focused, "My Words"),
           tabBarIcon: ({ focused }) => getIcon(focused, "home"),
         }}
       />
-      <Tabs.Screen name="settings/index" options={{ ...commonTabOptions!, headerTitle: "Settings", tabBarLabel: ({ focused }) => getLabel(focused, "My Settings"), tabBarIcon: ({ focused }) => getIcon(focused, "setting") }} />
+      <Tabs.Screen name="settings/index" options={{ ...commonTabOptions!, headerTitle: "Settings", headerTitleStyle: styles.headerTitle, tabBarLabel: ({ focused }) => getLabel(focused, "My Settings"), tabBarIcon: ({ focused }) => getIcon(focused, "setting") }} />
     </Tabs>
   );
 };
+
+const styles = StyleSheet.create({
+  headerLeft: {
+    marginLeft: CONSTANTS.styles.margin.m,
+  },
+  headerRight: {
+    paddingRight: CONSTANTS.styles.margin.m,
+  },
+  headerTitle: {
+    fontFamily: globalStyles.font.fontFamily,
+  },
+});

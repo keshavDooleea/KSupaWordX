@@ -1,11 +1,20 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { globalStyles } from "../../../../utils";
-import { MyText } from "../../../../components";
+import { MyButton } from "../../../../components";
+import { useAuth } from "../../../../hooks";
 
-export default function Home() {
+export default () => {
+  const { signOut } = useAuth();
+
   return (
-    <View style={globalStyles.tabLayout}>
-      <MyText text="Settings" />
+    <View style={[globalStyles.tabLayout, styles.container]}>
+      <MyButton isLoading={false} titleNormal="Log Out" titleLoading="" onPressed={signOut} useSegmentedWidth={true} />
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

@@ -5,8 +5,9 @@ import { useDimensions, useWords } from "../hooks";
 export const HeaderSearchBar = () => {
   const { currentSearch, setCurrentSearch } = useWords();
   const { segmentedControlWidth } = useDimensions();
+  const width = segmentedControlWidth * 0.7;
 
-  return <MyInput onChange={(text) => setCurrentSearch(text)} initialText={currentSearch} placeholder="Search word" type="default" inputContainerStyles={[styles.inputContainer, { width: segmentedControlWidth * 0.6 }]} emitOnChange={true} />;
+  return <MyInput onChange={(text) => setCurrentSearch(text)} initialText={currentSearch} placeholder="Search word" type="default" inputContainerStyles={[styles.inputContainer, { width }]} emitOnChange={true} />;
 };
 
 const styles = StyleSheet.create({
