@@ -1,14 +1,18 @@
 import { StyleSheet, View } from "react-native";
-import { globalStyles } from "../../../../utils";
+import { CONSTANTS, globalStyles } from "../../../../utils";
 import { MyButton } from "../../../../components";
-import { useAuth } from "../../../../hooks";
+import { useAuth, useLoading } from "../../../../hooks";
 
 export default () => {
   const { signOut } = useAuth();
+  const { onSubmit, isLoading: isSigningOut } = useLoading(signOut);
+
+  console.log({ isSigningOut });
 
   return (
     <View style={[globalStyles.tabLayout, styles.container]}>
-      <MyButton isLoading={false} titleNormal="Log Out" titleLoading="" onPressed={signOut} useSegmentedWidth={true} />
+      <View></View>
+      <MyButton isLoading={isSigningOut} titleNormal="Log Out" titleLoading="Logging Out" onPressed={onSubmit} useSegmentedWidth={true} />
     </View>
   );
 };
@@ -16,5 +20,7 @@ export default () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
+    paddingBottom: CONSTANTS.styles.margin.m,
   },
 });

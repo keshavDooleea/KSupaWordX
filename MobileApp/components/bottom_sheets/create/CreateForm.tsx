@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { ELanguageType } from "../../../interfaces";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Title } from "../../Title";
 import { LanguageSegmentedControl } from "../../SegmentedControl/LanguageSegmentedControl";
 import { MyButton } from "../../MyButton";
@@ -12,6 +12,8 @@ import { MyInput } from "../../MyInput";
 
 export const CreateForm = () => {
   const [isCreating, setIsCreating] = useState<boolean>(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
   const { closeAllBS } = useBottomSheet();
   const { user } = useAuth();
   const { languages, dictionaryUrls } = useSupabase();
@@ -37,6 +39,10 @@ export const CreateForm = () => {
       setCustomUrl("");
     }
   };
+
+  useEffect(() => {
+    setIsFormValid(wordText.length > 0);
+  }, [wordText]);
 
   return (
     <View style={styles.mainContainer}>
@@ -71,7 +77,7 @@ export const CreateForm = () => {
           </SegmentedControlWidth>
         </View>
 
-        <MyButton useSegmentedWidth={true} titleNormal="Confirm" titleLoading="Creating..." onPressed={onConfirmClicked} isLoading={isCreating} />
+        <MyButton useSegmentedWidth={true} titleNormal="Confirm" titleLoading="Creating..." onPressed={onConfirmClicked} isLoading={isCreating} isDisabled={!isFormValid} />
       </View>
     </View>
   );

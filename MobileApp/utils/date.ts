@@ -6,4 +6,11 @@ export class DateUtil {
       day: "numeric",
     }).format(new Date(date));
   }
+
+  static getFormattedTime(date: Date | number | string): string {
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(date));
+  }
 }

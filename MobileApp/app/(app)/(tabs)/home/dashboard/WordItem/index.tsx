@@ -26,7 +26,10 @@ export const WordItem = ({ word, isLastWord }: IWordItemProps) => {
       <TouchableOpacity onPress={onRowPressed} style={[styles.container, isLastWord && { marginBottom: CONSTANTS.styles.margin.m }]}>
         <View style={styles.header}>
           <MyText text={word.word.word} style={styles.headerTitle} />
-          <MyText text={DateUtil.getFormattedDate(word.created_at)} />
+          <View style={styles.timeDate}>
+            <MyText text={DateUtil.getFormattedTime(word.created_at)} />
+            <MyText text={DateUtil.getFormattedDate(word.created_at)} />
+          </View>
         </View>
 
         {word.custom_word_url && <MyText style={styles.customUrl} text="Custom" />}
@@ -39,14 +42,15 @@ const styles = StyleSheet.create({
   container: {
     marginTop: CONSTANTS.styles.margin.m,
     padding: CONSTANTS.styles.margin.m,
-    paddingTop: CONSTANTS.styles.margin.l,
-    paddingBottom: CONSTANTS.styles.margin.l,
+    paddingTop: CONSTANTS.styles.margin.m + 3,
+    paddingBottom: CONSTANTS.styles.margin.m + 3,
     backgroundColor: colors.background.secondary,
     borderRadius: CONSTANTS.styles.radius,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   headerTitle: {
     fontWeight: "bold",
@@ -62,5 +66,8 @@ const styles = StyleSheet.create({
     color: "red",
     alignSelf: "center",
     margin: CONSTANTS.styles.margin.m,
+  },
+  timeDate: {
+    alignItems: "flex-end",
   },
 });

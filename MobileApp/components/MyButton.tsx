@@ -54,5 +54,5 @@ export const MyButton = ({ useSegmentedWidth = false, isLoading = false, isDisab
     );
   };
 
-  return <Button buttonStyle={btnStyles} title={<Title />} onPress={onPressed} />;
+  return <Button buttonStyle={btnStyles} disabled={isDisabled} title={<Title />} onPress={onPressed} />;
 };
