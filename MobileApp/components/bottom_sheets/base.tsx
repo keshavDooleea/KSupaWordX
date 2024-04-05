@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useBottomSheet } from "../../hooks";
+import { useBottomSheet, useBottomSheetBackAction } from "../../hooks";
 import { BottomSheetDefaultBackdropProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types";
 import { CONSTANTS } from "../../utils";
 
@@ -13,6 +13,7 @@ interface ICreateBottomSheet extends PropsWithChildren {
 const BaseBottomSheet = ({ shouldOpen, canClose = true, children }: ICreateBottomSheet) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const { closeAllBS } = useBottomSheet();
+  useBottomSheetBackAction();
 
   const handleSheetChanges = useCallback((index: number) => {
     if (index === -1) closeAllBS();

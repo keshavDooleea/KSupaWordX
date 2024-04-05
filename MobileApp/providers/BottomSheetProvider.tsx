@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { IUserWord } from "../interfaces";
 
 interface IBottomSheetContext {
@@ -15,6 +15,7 @@ interface IBottomSheetContext {
   closeDeleteUserWordBS: () => void;
 
   closeAllBS: () => void;
+  isOpen: boolean;
 }
 
 export const BottomSheetContext = createContext<IBottomSheetContext>({} as IBottomSheetContext);
@@ -23,6 +24,7 @@ export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
   const [shouldOpenCreateBS, setShouldOpenCreateBS] = useState<boolean>(false);
   const [webViewWord, setWebViewWord] = useState<IUserWord | null>(null);
   const [deleteUserWord, setDeleteUserWord] = useState<IUserWord | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openCreateBS = () => setShouldOpenCreateBS(true);
   const closeCreateBS = () => setShouldOpenCreateBS(false);
@@ -39,6 +41,10 @@ export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
     closeDeleteUserWordBS();
   };
 
+  useEffect(() => {
+    setIsOpen(shouldOpenCreateBS || !!webViewWord || !!deleteUserWord);
+  }, [shouldOpenCreateBS, webViewWord, deleteUserWord]);
+
   return (
     <BottomSheetContext.Provider
       value={{
@@ -52,6 +58,7 @@ export const BottomSheetProvider = ({ children }: PropsWithChildren) => {
         openDeleteUserWordBS,
         closeDeleteUserWordBS,
         closeAllBS,
+        isOpen,
       }}
     >
       {children}
