@@ -7,8 +7,6 @@ export default () => {
   const { signOut } = useAuth();
   const { onSubmit, isLoading: isSigningOut } = useLoading(signOut);
 
-  console.log({ isSigningOut });
-
   return (
     <View style={[globalStyles.tabLayout, styles.container]}>
       <View></View>
