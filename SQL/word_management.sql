@@ -19,14 +19,22 @@ CREATE TABLE user_word_urls (
     word_id uuid not null references words on delete cascade,
     user_id uuid not null references profiles on delete cascade,
     custom_word_url VARCHAR(255),
+    example_phrase VARCHAR(255),
     created_at timestamp with time zone default now(),
     primary key (word_id, user_id)
 );
 
-CREATE TABLE dict_urls (
+CREATE TABLE dictionary_urls (
     id uuid not null primary key default uuid_generate_v4(),
     dict_name VARCHAR(50) unique not null,
     dict_url text unique not null,
+    lang language not null
+);
+
+CREATE TABLE idiom_urls (
+    id uuid not null primary key default uuid_generate_v4(),
+    idiom_name VARCHAR(50) unique not null,
+    idiom_url text unique not null,
     lang language not null
 );
 
@@ -38,7 +46,10 @@ alter table words
 alter table user_word_urls
   enable row level security;
 
-alter table dict_urls
+alter table dictionary_urls
+  enable row level security;
+
+alter table idiom_urls
   enable row level security;
 
 
@@ -70,14 +81,20 @@ create policy "Users can perform all actions on their own word URLS."
     with check (auth.uid() = user_id);
    
 create policy "Users can read all dictionnary URLS." 
-    on dict_urls
+    on dictionary_urls
+    for select 
+    to authenticated
+    using (true); 
+   
+create policy "Users can read all idiom URLS." 
+    on idiom_urls
     for select 
     to authenticated
     using (true); 
 
 
--- DEFAULT INSERTIONS
-insert into dict_urls (dict_name, dict_url, lang) values
+-- DEFAULT DICTIONARY INSERTIONS
+insert into dictionary_urls (dict_name, dict_url, lang) values
   (
     'Dictionary',
     'https://www.dictionary.com/browse/',
@@ -106,5 +123,33 @@ insert into dict_urls (dict_name, dict_url, lang) values
   (
     'Larousse',
     'https://www.larousse.fr/dictionnaires/francais/',
+    'fr'
+  );
+
+-- DEFAULT IDIOMS INSERTIONS
+insert into idiom_urls (idiom_name, idiom_url, lang) values
+  (
+    'Education First',
+    'https://www.ef.com/wwen/english-resources/english-idioms/',
+    'en'
+  ),
+  (
+    'ThoughtCo',
+    'https://www.thoughtco.com/common-english-idioms-3211646',
+    'en'
+  ),
+  (
+    'Preply',
+    'https://preply.com/en/blog/french-idioms/',
+    'fr'
+  ),
+  (
+    'Rosetta Stone',
+    'https://blog.rosettastone.com/french-idioms/',
+    'fr'
+  ),
+  (
+    'Newsdle',
+    'https://www.newsdle.com/blog/french-idioms',
     'fr'
   );
