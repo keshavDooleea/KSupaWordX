@@ -1,5 +1,13 @@
 ## Mobile App
 
+### Stacks
+
+- React Native w/ Expo & TypeScript
+- Supabase Cloud services (Functions, Webhooks, Storage, PostgreSQL)
+- Node.js
+
+![Architecture](architecture.png)
+
 #### Getting started with Supabase:
 
 - https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native
